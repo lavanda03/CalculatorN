@@ -1,0 +1,11 @@
+C:\Users\Natalita\Desktop\valentinCalculator\Calculator\CalculatorService\bin\Debug\net6.0\CalculatorService.deps.json
+C:\Users\Natalita\Desktop\valentinCalculator\Calculator\CalculatorService\bin\Debug\net6.0\CalculatorService.dll
+C:\Users\Natalita\Desktop\valentinCalculator\Calculator\CalculatorService\bin\Debug\net6.0\CalculatorService.pdb
+C:\Users\Natalita\Desktop\valentinCalculator\Calculator\CalculatorService\obj\Debug\net6.0\CalculatorService.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Natalita\Desktop\valentinCalculator\Calculator\CalculatorService\obj\Debug\net6.0\CalculatorService.AssemblyInfoInputs.cache
+C:\Users\Natalita\Desktop\valentinCalculator\Calculator\CalculatorService\obj\Debug\net6.0\CalculatorService.AssemblyInfo.cs
+C:\Users\Natalita\Desktop\valentinCalculator\Calculator\CalculatorService\obj\Debug\net6.0\CalculatorService.csproj.CoreCompileInputs.cache
+C:\Users\Natalita\Desktop\valentinCalculator\Calculator\CalculatorService\obj\Debug\net6.0\CalculatorService.dll
+C:\Users\Natalita\Desktop\valentinCalculator\Calculator\CalculatorService\obj\Debug\net6.0\refint\CalculatorService.dll
+C:\Users\Natalita\Desktop\valentinCalculator\Calculator\CalculatorService\obj\Debug\net6.0\CalculatorService.pdb
+C:\Users\Natalita\Desktop\valentinCalculator\Calculator\CalculatorService\obj\Debug\net6.0\ref\CalculatorService.dll
