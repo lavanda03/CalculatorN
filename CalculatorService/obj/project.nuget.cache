@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "pDHvyk7Be/O+KUuJkmISrW0k7sO4ex1lJXyph242rOsTPZg9RecmW9ZGhpbsNn0y2UzfclkhidblIC1OS8PB6g==",
+  "dgSpecHash": "o3nXcfI7puejlgXuh8FV8fXkrbTWccpw0EsY0tCqOXSN7q/FkZ7eFxL8K+yG9ZlpdkJqgYNXcbPQXcNLOB52Vg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Natalita\\Desktop\\Calculator nou\\CalculatorN\\CalculatorService\\CalculatorService.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\crme155\\Desktop\\CalculatorN\\CalculatorN\\CalculatorService\\CalculatorService.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\crme155\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.29\\microsoft.windowsdesktop.app.ref.6.0.29.nupkg.sha512",
+    "C:\\Users\\crme155\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.29\\microsoft.netcore.app.ref.6.0.29.nupkg.sha512",
+    "C:\\Users\\crme155\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.29\\microsoft.aspnetcore.app.ref.6.0.29.nupkg.sha512"
+  ],
   "logs": []
 }

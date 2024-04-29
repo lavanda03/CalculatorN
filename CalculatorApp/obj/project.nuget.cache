@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "ZMbyNV+Xmfgyc+/4byle01yUa+ZIBDgj9DVEXKNNNy+vmSTiByndfGTl9qsQKCJ4kYZjaaLUY+BkmzP679pK/w==",
+  "dgSpecHash": "/gW5PrdCKq0bk3vB2jyHQk1k5b0ME4MAdJJMzao10L66M5bqhkITq/qQUrlGWFKQ1P8U7y2eqsILe1yUX6SdVQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Natalita\\Desktop\\Calculator nou\\CalculatorN\\CalculatorApp\\CalculatorApp.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\crme155\\Desktop\\CalculatorN\\CalculatorN\\CalculatorApp\\CalculatorApp.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\crme155\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\7.0.18\\microsoft.windowsdesktop.app.ref.7.0.18.nupkg.sha512",
+    "C:\\Users\\crme155\\.nuget\\packages\\microsoft.netcore.app.ref\\7.0.18\\microsoft.netcore.app.ref.7.0.18.nupkg.sha512",
+    "C:\\Users\\crme155\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\7.0.18\\microsoft.aspnetcore.app.ref.7.0.18.nupkg.sha512",
+    "C:\\Users\\crme155\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\7.0.18\\microsoft.netcore.app.host.win-x64.7.0.18.nupkg.sha512"
+  ],
   "logs": []
 }

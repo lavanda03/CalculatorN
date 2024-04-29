@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\crme155\\Desktop\\CalculatorN\\CalculatorN\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{10D3A393-DDCA-4E9A-972D-22347CD890BE}|CalculatorApp\\CalculatorApp.csproj|c:\\users\\crme155\\desktop\\calculatorn\\calculatorn\\calculatorapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{10D3A393-DDCA-4E9A-972D-22347CD890BE}|CalculatorApp\\CalculatorApp.csproj|solutionrelative:calculatorapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{700675B7-BC6D-4EFC-ABC4-9BA0827FB532}|CalculatorService\\CalculatorService.csproj|c:\\users\\crme155\\desktop\\calculatorn\\calculatorn\\calculatorservice\\calculationsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{700675B7-BC6D-4EFC-ABC4-9BA0827FB532}|CalculatorService\\CalculatorService.csproj|solutionrelative:calculatorservice\\calculationsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CalculationsService.cs",
+              "DocumentMoniker": "C:\\Users\\crme155\\Desktop\\CalculatorN\\CalculatorN\\CalculatorService\\CalculationsService.cs",
+              "RelativeDocumentMoniker": "CalculatorService\\CalculationsService.cs",
+              "ToolTip": "C:\\Users\\crme155\\Desktop\\CalculatorN\\CalculatorN\\CalculatorService\\CalculationsService.cs",
+              "RelativeToolTip": "CalculatorService\\CalculationsService.cs",
+              "ViewState": "AQIAACgAAAAAAAAAAAAiwDcAAAAYAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-29T05:44:31.966Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\crme155\\Desktop\\CalculatorN\\CalculatorN\\CalculatorApp\\Program.cs",
+              "RelativeDocumentMoniker": "CalculatorApp\\Program.cs",
+              "ToolTip": "C:\\Users\\crme155\\Desktop\\CalculatorN\\CalculatorN\\CalculatorApp\\Program.cs",
+              "RelativeToolTip": "CalculatorApp\\Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAAVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-29T05:44:31.984Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

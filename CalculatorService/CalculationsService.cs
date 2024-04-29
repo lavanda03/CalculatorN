@@ -1,4 +1,6 @@
-﻿  using System.Text;
+﻿using System.ComponentModel.Design;
+using System.Security;
+using System.Text;
 
 namespace CalculatorService;
 
@@ -11,36 +13,49 @@ public static class CalculationsService
         while (WithoutParenthesis(expression, out expression))
         {
         }
-        
-        return Calculate(expression);
+
+        if (IsSingleNumber(expression))
+        {
+            return int.Parse(expression);
+        }
+
+        else
+
+        { return Calculate(expression); }
     }
 
     private static int Calculate(string expression)
     {
-        //List<char> operators = new List<char>();
-
-       // Stack<double> values = new Stack<double>();
+       
         Stack<char> operators = new Stack<char>();
         StringBuilder currentNumber = new StringBuilder();
 
-        int? firstNumber = null;
+        int? firstNumber =null;
         int secondNumber = 0;
+        bool foundFirstNumber = false;
 
         foreach (var c in expression)
         {
+           
             if (char.IsDigit(c))
             {
                 currentNumber.Append(c);
-
+                
                 if (firstNumber.HasValue)
                     secondNumber = int.Parse(currentNumber.ToString());
+
             }
             else
             {
+
+
                 if (!string.IsNullOrEmpty(currentNumber.ToString()))
                 {
                     if (!firstNumber.HasValue)
+                    {
                         firstNumber = int.Parse(currentNumber.ToString());
+                        foundFirstNumber = true;
+                    }
                     else
                     {
                         firstNumber = Operate(operators, firstNumber.Value, secondNumber);
@@ -49,8 +64,20 @@ public static class CalculationsService
                     currentNumber = new StringBuilder();
                 }
 
-                operators.Push(c);
+                if (c == '-' && !foundFirstNumber)
+                {
+                    currentNumber.Append(c);
+
+                }
+
+                else
+                {
+                    operators.Push(c);
+                }
+                
             }
+            
+
         }
 
         if (operators.Count > 0)
@@ -87,18 +114,8 @@ public static class CalculationsService
         
         if (operators.Any(x => x is '*' or '/'))
         {
-
-            /*
-              var multipleOperatorIndex = operators.LastIndex('*');
-              var divideOperatorIndex = operators.LastIndexOf('/');
-
-              op = multipleOperatorIndex > divideOperatorIndex ? '*' : '/';
-
-              negativeNumber = operators.Count(x => x == '-') % 2 != 0;*/
-
-           op = operators.Peek() == '*' ? '*' :
-           operators.Peek() == '/' ? '/' :
-           operators.Count(x => x == '-') % 2 == 0 ? '+' : '-';
+            op = operators.Peek() == '*' ? '*' : operators.Peek() == '/' ? '/' :
+            operators.Count(x => x == '-') % 2 == 0 ? '+' : '-';
         }
         else
         {
@@ -128,5 +145,11 @@ public static class CalculationsService
             result *= -1;
 
         return result;
+    }
+
+    private static bool IsSingleNumber(string expression)
+    {
+        int num;
+        return int.TryParse(expression, out num);
     }
 }
