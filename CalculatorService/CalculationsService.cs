@@ -129,13 +129,16 @@ public static class CalculationsService
                     operators.Pop();
                     op = prevOperator;
                 }
-            }
+                op = operators.Count(x => x == '-') % 2 == 0 ? '+' : '-';
 
+            }
 
             else
             {
+                op = operators.Peek() == '*' ? '*' : operators.Peek() == '/' ? '/' :
                 op = operators.Count(x => x == '-') % 2 == 0 ? '+' : '-';
             }
+
 
         }
         catch(Exception ex)
