@@ -109,19 +109,41 @@ public static class CalculationsService
 
     private static int Operate(Stack<char> operators, int number1, int number2)
     {
-        char op;
+        char op = ' ';
         bool negativeNumber = false;
-        
-        if (operators.Any(x => x is '*' or '/'))
-        {
-            op = operators.Peek() == '*' ? '*' : operators.Peek() == '/' ? '/' :
-            operators.Count(x => x == '-') % 2 == 0 ? '+' : '-';
-        }
-        else
-        {
-            op = operators.Count(x => x == '-') % 2 == 0 ? '+' : '-';
-        }
 
+        try
+        {
+            if (HasInvalidCombination(operators))
+            {
+                throw new Exception("Combinație invalidă de semne.");
+            }
+
+            if (operators.TryPeek(out char lasOperator) && lasOperator == '-')
+            {
+                char prevOperator = operators.ElementAt(operators.Count - 1);
+
+                if (prevOperator == '/' || prevOperator == '*')
+                {
+                    negativeNumber = true;
+                    operators.Pop();
+                    op = prevOperator;
+                }
+            }
+
+
+            else
+            {
+                op = operators.Count(x => x == '-') % 2 == 0 ? '+' : '-';
+            }
+
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            Environment.Exit(1);
+        }
+        
         operators.Clear();
 
         var result = 0;
@@ -151,5 +173,22 @@ public static class CalculationsService
     {
         int num;
         return int.TryParse(expression, out num);
+    }
+
+    static bool HasInvalidCombination(Stack<char> stack)
+    {
+        string[] invalidCombination = { "**", "//", "*/", "/*", "+*", "*+", "/+", "-/"};
+        
+        string stackString=new string(stack.ToArray());
+
+        foreach(string c in invalidCombination)
+        {
+            if (stackString.Contains(c))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
