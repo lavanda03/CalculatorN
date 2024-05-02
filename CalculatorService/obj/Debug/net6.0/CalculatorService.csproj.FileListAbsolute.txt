@@ -21,3 +21,4 @@ C:\Users\crme155\Desktop\CalculatorN\CalculatorN\CalculatorService\obj\Debug\net
 C:\Users\crme155\Desktop\CalculatorN\CalculatorN\CalculatorService\obj\Debug\net6.0\refint\CalculatorService.dll
 C:\Users\crme155\Desktop\CalculatorN\CalculatorN\CalculatorService\obj\Debug\net6.0\CalculatorService.pdb
 C:\Users\crme155\Desktop\CalculatorN\CalculatorN\CalculatorService\obj\Debug\net6.0\ref\CalculatorService.dll
+C:\Users\crme155\Desktop\CalculatorN\CalculatorN\CalculatorService\obj\Debug\net6.0\CalculatorService.csproj.AssemblyReference.cache

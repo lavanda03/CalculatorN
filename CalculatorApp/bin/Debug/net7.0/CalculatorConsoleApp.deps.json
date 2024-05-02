@@ -8,13 +8,25 @@
     ".NETCoreApp,Version=v7.0": {
       "CalculatorConsoleApp/1.0.0": {
         "dependencies": {
-          "CalculatorService": "1.0.0"
+          "CalculatorService": "1.0.0",
+          "Math-Expression-Evaluator": "1.3.2"
         },
         "runtime": {
           "CalculatorConsoleApp.dll": {}
         }
       },
+      "Math-Expression-Evaluator/1.3.2": {
+        "runtime": {
+          "lib/netstandard2.0/SimpleExpressionEvaluator.dll": {
+            "assemblyVersion": "1.3.2.0",
+            "fileVersion": "1.3.2.0"
+          }
+        }
+      },
       "CalculatorService/1.0.0": {
+        "dependencies": {
+          "Math-Expression-Evaluator": "1.3.2"
+        },
         "runtime": {
           "CalculatorService.dll": {}
         }
@@ -26,6 +38,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "Math-Expression-Evaluator/1.3.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ufhkCPbD7JPXkOQ2ACaIcFi5ZEKfJNr0Vcj/Sl7rcPjlwYqRMkI2hcZmI2UUGEngdeSbx2edANNzQM3QvACZ3g==",
+      "path": "math-expression-evaluator/1.3.2",
+      "hashPath": "math-expression-evaluator.1.3.2.nupkg.sha512"
     },
     "CalculatorService/1.0.0": {
       "type": "project",

@@ -35,3 +35,4 @@ C:\Users\crme155\Desktop\CalculatorN\CalculatorN\CalculatorApp\obj\Debug\net7.0\
 C:\Users\crme155\Desktop\CalculatorN\CalculatorN\CalculatorApp\obj\Debug\net7.0\CalculatorConsoleApp.pdb
 C:\Users\crme155\Desktop\CalculatorN\CalculatorN\CalculatorApp\obj\Debug\net7.0\CalculatorApp.genruntimeconfig.cache
 C:\Users\crme155\Desktop\CalculatorN\CalculatorN\CalculatorApp\obj\Debug\net7.0\ref\CalculatorConsoleApp.dll
+C:\Users\crme155\Desktop\CalculatorN\CalculatorN\CalculatorApp\bin\Debug\net7.0\SimpleExpressionEvaluator.dll

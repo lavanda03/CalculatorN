@@ -2,9 +2,25 @@
   "version": 3,
   "targets": {
     "net7.0": {
+      "Math-Expression-Evaluator/1.3.2": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/SimpleExpressionEvaluator.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/SimpleExpressionEvaluator.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
       "CalculatorService/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Math-Expression-Evaluator": "1.3.2"
+        },
         "compile": {
           "bin/placeholder/CalculatorService.dll": {}
         },
@@ -15,6 +31,20 @@
     }
   },
   "libraries": {
+    "Math-Expression-Evaluator/1.3.2": {
+      "sha512": "ufhkCPbD7JPXkOQ2ACaIcFi5ZEKfJNr0Vcj/Sl7rcPjlwYqRMkI2hcZmI2UUGEngdeSbx2edANNzQM3QvACZ3g==",
+      "type": "package",
+      "path": "math-expression-evaluator/1.3.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/SimpleExpressionEvaluator.dll",
+        "lib/netstandard2.0/SimpleExpressionEvaluator.pdb",
+        "lib/netstandard2.0/SimpleExpressionEvaluator.xml",
+        "math-expression-evaluator.1.3.2.nupkg.sha512",
+        "math-expression-evaluator.nuspec"
+      ]
+    },
     "CalculatorService/1.0.0": {
       "type": "project",
       "path": "../CalculatorService/CalculatorService.csproj",
@@ -23,7 +53,8 @@
   },
   "projectFileDependencyGroups": {
     "net7.0": [
-      "CalculatorService >= 1.0.0"
+      "CalculatorService >= 1.0.0",
+      "Math-Expression-Evaluator >= 1.3.2"
     ]
   },
   "packageFolders": {
@@ -79,6 +110,12 @@
     "frameworks": {
       "net7.0": {
         "targetAlias": "net7.0",
+        "dependencies": {
+          "Math-Expression-Evaluator": {
+            "target": "Package",
+            "version": "[1.3.2, )"
+          }
+        },
         "imports": [
           "net461",
           "net462",
@@ -90,24 +127,6 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[7.0.18, 7.0.18]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Host.win-x64",
-            "version": "[7.0.18, 7.0.18]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Ref",
-            "version": "[7.0.18, 7.0.18]"
-          },
-          {
-            "name": "Microsoft.WindowsDesktop.App.Ref",
-            "version": "[7.0.18, 7.0.18]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"

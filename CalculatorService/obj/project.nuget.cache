@@ -1,12 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "o3nXcfI7puejlgXuh8FV8fXkrbTWccpw0EsY0tCqOXSN7q/FkZ7eFxL8K+yG9ZlpdkJqgYNXcbPQXcNLOB52Vg==",
+  "dgSpecHash": "GSwVtu3RboF+hB4amFMkt4ngWFKFciyyJeHU2OzCmxqU5O+y7IzB/KpcmrtS9OldgpYwUk6tQ2hlPj1hba9czQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\crme155\\Desktop\\CalculatorN\\CalculatorN\\CalculatorService\\CalculatorService.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\crme155\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.29\\microsoft.windowsdesktop.app.ref.6.0.29.nupkg.sha512",
-    "C:\\Users\\crme155\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.29\\microsoft.netcore.app.ref.6.0.29.nupkg.sha512",
-    "C:\\Users\\crme155\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.29\\microsoft.aspnetcore.app.ref.6.0.29.nupkg.sha512"
+    "C:\\Users\\crme155\\.nuget\\packages\\math-expression-evaluator\\1.3.2\\math-expression-evaluator.1.3.2.nupkg.sha512"
   ],
   "logs": []
 }
