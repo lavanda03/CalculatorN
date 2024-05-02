@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.Design;
 using System.Security;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace CalculatorService;
 
@@ -9,6 +10,20 @@ public static class CalculationsService
     public static int Execute(string expression)
     {
         expression = expression.Trim().Replace(" ", "");
+
+        try
+        {
+            if (!IsSingleNumberAndSimbols(expression))
+            {
+                throw new Exception("Introduceti doar cifrele 1-9 si semnele respective : /,+,* -; ");
+            }
+        }
+        
+        catch (Exception ex) 
+        {
+            Console.WriteLine(ex.Message);
+            Environment.Exit(1);
+        }
 
         while (WithoutParenthesis(expression, out expression))
         {
@@ -23,7 +38,7 @@ public static class CalculationsService
 
         { return Calculate(expression); }
     }
-
+   
     private static int Calculate(string expression)
     {
        
@@ -129,7 +144,11 @@ public static class CalculationsService
                     operators.Pop();
                     op = prevOperator;
                 }
-                op = operators.Count(x => x == '-') % 2 == 0 ? '+' : '-';
+
+                else
+                {
+                    op = operators.Count(x => x == '-') % 2 == 0 ? '+' : '-';
+                }
 
             }
 
@@ -193,5 +212,14 @@ public static class CalculationsService
         }
 
         return false;
+    }
+
+    public static bool IsSingleNumberAndSimbols(string expression)
+    {
+        if (Regex.IsMatch(expression, @"[^0-9*/+\-()]"))
+        {
+            return false;
+        }
+        return true;
     }
 }
