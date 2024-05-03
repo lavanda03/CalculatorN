@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.Design;
+using System.Reflection.Metadata.Ecma335;
 using System.Security;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -18,8 +19,8 @@ public static class CalculationsService
                 throw new Exception("Introduceti doar cifrele 1-9 si semnele respective : /,+,* -; ");
             }
         }
-        
-        catch (Exception ex) 
+
+        catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
             Environment.Exit(1);
@@ -38,17 +39,17 @@ public static class CalculationsService
 
         { return EvaulateFinalResult(expression); }
     }
-   
+
     private static int Calculate(string expression)
     {
-       
+
         Stack<char> operators = new Stack<char>();
         StringBuilder currentNumber = new StringBuilder();
 
-        int? firstNumber =null;
+        int? firstNumber = null;
         int secondNumber = 0;
         bool foundFirstNumber = false;
-        
+
         foreach (var c in expression)
         {
 
@@ -76,7 +77,7 @@ public static class CalculationsService
 
                     currentNumber = new StringBuilder();
                 }
-               
+
 
                 if (c == '-' && !foundFirstNumber)
                 {
@@ -88,7 +89,7 @@ public static class CalculationsService
                 {
                     operators.Push(c);
                 }
-                
+
             }
 
         }
@@ -101,71 +102,66 @@ public static class CalculationsService
         return firstNumber.Value;
     }
 
-    /* private static bool WithoutParenthesis(string expression, out string executedExpressions)
-     {
-         if (!expression.Any(x => x is '(' or ')'))
-         {
-             executedExpressions = expression;
-             return false;
-         }
-
-       
-        var ex1 = expression.SkipWhile(x => x != '(').TakeWhile(x => x != ')').Append(')').ToList();
-
-         var parenthesisExpression = new string(ex1.ToArray());
-
-         var parenthesisExpressionResult = Calculate(parenthesisExpression.Replace("(", "").Replace(")", ""));
-
-         executedExpressions = expression.Replace(parenthesisExpression, parenthesisExpressionResult.ToString());
-
-         return true;
-     }*/
-
 
     private static bool WithoutParenthesis(string expression, out string executedExpressions)
     {
-       
-
         if (!expression.Any(x => x is '(' or ')'))
         {
             executedExpressions = expression;
             return false;
         }
 
-        int lastOpenParenthesisIndex = expression.LastIndexOf('(');
-        int firstCloseParenthesisIndex = expression.IndexOf(')', lastOpenParenthesisIndex);
+        int firstOpenParenthesisIndex = -1;
+        int lastCloseParenthesisIndex = -1;
+        bool foundFirstPair = false;
 
-
-        // Extragem subexpresia între ultimul '(' și primul ')'
-        string subexpression = expression.Substring(lastOpenParenthesisIndex + 1, firstCloseParenthesisIndex - lastOpenParenthesisIndex - 1);
-
-        // Verificăm dacă subexpresia conține doar un singur număr
-        if (IsSingleNumberr(subexpression))
+        // Căutăm prima pereche de paranteze deschise și închise care corespund
+        for (int i = 0; i < expression.Length; i++)
         {
-            // Dacă subexpresia este un singur număr, nu apelăm metoda Calculate
+
+            if (expression[i] == '(')
+            {
+                firstOpenParenthesisIndex = i;
+            }
+            else if (expression[i] == ')' && firstOpenParenthesisIndex != -1)
+            {
+                lastCloseParenthesisIndex = i;
+                foundFirstPair = true;
+                break;
+            }
+        }
+
+
+        int countDigits = expression.Count(char.IsDigit);
+        if (countDigits == 1 || countDigits == 2)
+        {
+            EvaulateFinalResult(expression);
+
+           
+        }
+       
+
+        if (!foundFirstPair)
+        {
+            // Dacă nu găsim o pereche de paranteze deschise și închise, returnăm expresia inițială
             executedExpressions = expression;
             return false;
         }
 
-        // Calculăm rezultatul pentru subexpresie
-        var parenthesisExpressionResult = Calculate(subexpression.Replace("(", "").Replace(")", "")).ToString();
-        
-        // Construim expresia finală înlocuind subexpresia cu rezultatul său în expresia inițială
-        executedExpressions = expression.Replace(subexpression, parenthesisExpressionResult.ToString());
+        // Extragem subexpresia dintre prima pereche de paranteze
+        string parenthesisExpression = expression.Substring(firstOpenParenthesisIndex , lastCloseParenthesisIndex - firstOpenParenthesisIndex ).Replace("(", "").Replace(")", "");
+
+        // Calculăm rezultatul pentru subexpresia dintre paranteze
+        string parenthesisExpressionResult = Calculate(parenthesisExpression).ToString();
+        executedExpressions = expression.Remove(firstOpenParenthesisIndex, lastCloseParenthesisIndex - firstOpenParenthesisIndex + 1)
+                                     .Insert(firstOpenParenthesisIndex, parenthesisExpressionResult);
+
 
         return true;
     }
 
-    private static bool IsSingleNumberr(string expression)
-    {
-        // Verificăm dacă subexpresia conține doar un singur număr
-        return Regex.IsMatch(expression, @"^-?\d+$");
-    }
 
-
-
-
-    private static int Operate(Stack<char> operators, int number1, int number2)
+    public static int Operate(Stack<char> operators, int number1, int number2)
     {
         char op = ' ';
         bool negativeNumber = false;
@@ -270,19 +266,21 @@ public static class CalculationsService
     {
         int countMinusSign = expression.Count(x => x == '-');
         int countDigits = expression.Count(char.IsDigit);
-        if (countDigits == 1)
+        if (countDigits == 1 || countDigits == 2)
         {
             char op = countMinusSign % 2 == 0 ? '+' : '-';
 
             var numberString = expression.Replace("(", "").Replace(")", "").Replace("-", "");
             int number = int.Parse(numberString);
 
-            return op == '-' ? -number : number;
+            return  op == '-' ? -number : number;
+         
 
+            
         }
         else
         {
-            Calculate(expression); return 0;    
+           return Calculate(expression);   
         }
 
     }
