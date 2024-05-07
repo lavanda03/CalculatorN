@@ -57,6 +57,12 @@
             "Math-Expression-Evaluator": {
               "target": "Package",
               "version": "[1.3.2, )"
+            },
+            "coverlet.collector": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.2, )"
             }
           },
           "imports": [
@@ -128,6 +134,12 @@
             "Math-Expression-Evaluator": {
               "target": "Package",
               "version": "[1.3.2, )"
+            },
+            "coverlet.collector": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.2, )"
             }
           },
           "imports": [

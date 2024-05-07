@@ -118,13 +118,22 @@ public static class CalculationsService
                 foundFirstPair = true;
                 break;
             }
+            else if (expression[i] == ')' && lastOpenParenthesisIndex == -1)
+            {
+                throw new Exception("Lipseste paranteza deschisa '(' ");
+               
+                //expression = "(" + expression;
+                //lastOpenParenthesisIndex = 0;
+            }
         }
 
+        
         if (!foundFirstPair)
         {
-            // Dacă nu găsim o pereche de paranteze deschise și închise, returnăm expresia inițială
-            expression += ")";
-            firstClosedParenthesisIndex = expression.Length - 1;
+            throw new Exception("Lipseste paranteza inchisa ')' ");
+            
+            //expression += ")";
+           // firstClosedParenthesisIndex = expression.Length - 1;
         }
 
         // Extragem subexpresia dintre prima pereche de paranteze
@@ -134,6 +143,7 @@ public static class CalculationsService
 
         // Calculăm rezultatul pentru subexpresia dintre paranteze
         string parenthesisExpressionResult = Calculate(parenthesisExpression).ToString();
+
         executedExpressions = expression.Remove(lastOpenParenthesisIndex,
                 firstClosedParenthesisIndex - lastOpenParenthesisIndex + 1)
             .Insert(lastOpenParenthesisIndex, parenthesisExpressionResult);
@@ -152,7 +162,7 @@ public static class CalculationsService
         {
             throw new Exception("Combinație invalidă de semne.");
         }
-
+        
         if (operators.TryPeek(out char lasOperator) && lasOperator == '-')
         {
             char prevOperator = operators.ElementAt(operators.Count - 1);
@@ -167,6 +177,16 @@ public static class CalculationsService
             {
                 op = operators.Count(x => x == '-') % 2 == 0 ? '+' : '-';
             }
+        }
+
+        if (operators.Peek() == '*')
+        {
+            op = operators.Pop();
+        }
+
+        else if (operators.Peek() == '/')
+        {
+            op = operators.Pop();
         }
 
         else
@@ -190,7 +210,8 @@ public static class CalculationsService
                 break;
             case '/':
                 result = number1 / number2;
-                break;
+                 break;
+              
         }
 
         if (negativeNumber)
@@ -199,7 +220,7 @@ public static class CalculationsService
         return result;
     }
 
-    private static bool IsSingleNumber(string expression, out int num)
+    public static bool IsSingleNumber(string expression, out int num)
     {
         int startIndex = 0;
         var operators = new List<char>();
@@ -220,9 +241,9 @@ public static class CalculationsService
         return false;
     }
 
-    private static bool HasInvalidCombination(Stack<char> stack)
+    public static bool HasInvalidCombination(Stack<char> stack)
     {
-        string[] invalidCombination = { "**", "//", "*/", "/*", "+*", "*+", "/+", "-/" };
+        string[] invalidCombination = { "**", "//", "*/", "/*", "+*", "*+", "/+","+/", "/-","*-","--/","--*" };
 
         string stackString = new string(stack.ToArray());
 
@@ -237,7 +258,7 @@ public static class CalculationsService
         return false;
     }
 
-    private static bool IsSingleNumberAndSimbols(string expression)
+    public static bool IsSingleNumberAndSimbols(string expression)
     {
         return !Regex.IsMatch(expression, @"[^0-9*/+\-()]");
     }
