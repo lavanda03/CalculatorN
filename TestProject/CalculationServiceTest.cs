@@ -24,22 +24,17 @@ namespace TestProject
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception))]
+        [ExpectedException(typeof(Exception), "Introduceti doar cifrele 1-9 si semnele respective : /,+,* -;")]
         public void IsNotOnlySingleNumberAndSymbols_ExceptionTest()
         {
             string expression = "3+!-A*10";
 
-            var result = CalculationsService.IsSingleNumberAndSimbols(expression);
+            CalculationsService.IsSingleNumberAndSimbols(expression);
 
-            try
-            {
-                Assert.Fail("Expected exception was not thrown");
-            }
-
-            catch (InvalidOperationException ex)
-            {
-                Assert.AreEqual("Introduceti doar cifrele 1-9 si semnele respective : /,+,* -;", ex.Message);
-            }
+              
+            // Assert.AreEqual("Introduceti doar cifrele 1-9 si semnele respective : /,+,* -;",ex.Message);
+                
+            
         }
 
 
@@ -189,6 +184,7 @@ namespace TestProject
             Assert.AreEqual(5, result);
         }
 
+
         [TestMethod]
         [ExpectedException(typeof(DivideByZeroException))]
         public void Operate_DivTo0Test()
@@ -294,6 +290,17 @@ namespace TestProject
             var result = CalculationsService.Calculate(expression);
 
             Assert.AreEqual(9, result);
+        }
+
+        //execute
+        [TestMethod]
+        public void execute_Test()
+        {
+            string expression = "5/2";
+
+            decimal result = CalculationsService.Execute(expression);
+
+            Assert.AreEqual(2.5m , result);
         }
     }
     

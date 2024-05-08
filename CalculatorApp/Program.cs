@@ -1,4 +1,6 @@
-﻿Console.WriteLine("Introduceti expresia :");
+﻿using CalculatorService;
+
+Console.WriteLine("Introduceti expresia :");
 
 var expression = Console.ReadLine();
 
@@ -6,7 +8,11 @@ if(string.IsNullOrEmpty(expression))
     Console.WriteLine("Expresie invalida");
 else
 {
-    var result = (decimal)CalculatorService.CalculationsService.Execute(expression);
-    Console.WriteLine(result);
+    var result = CalculatorService.CalculationsService.Execute(expression);
+    decimal dec = Convert.ToDecimal(result);
+    
+    Console.WriteLine(dec);
 }
+
+
 

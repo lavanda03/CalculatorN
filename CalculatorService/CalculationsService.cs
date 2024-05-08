@@ -136,12 +136,11 @@ public static class CalculationsService
            // firstClosedParenthesisIndex = expression.Length - 1;
         }
 
-        // Extragem subexpresia dintre prima pereche de paranteze
         string parenthesisExpression = expression
             .Substring(lastOpenParenthesisIndex, firstClosedParenthesisIndex - lastOpenParenthesisIndex)
             .Replace("(", "").Replace(")", "");
 
-        // Calculăm rezultatul pentru subexpresia dintre paranteze
+        
         string parenthesisExpressionResult = Calculate(parenthesisExpression).ToString();
 
         executedExpressions = expression.Remove(lastOpenParenthesisIndex,
@@ -259,8 +258,14 @@ public static class CalculationsService
         return false;
     }
 
+
     public static bool IsSingleNumberAndSimbols(string expression)
     {
         return !Regex.IsMatch(expression, @"[^0-9*/+\-()\.]");
+    }
+
+    public static decimal ConvertIntToDecimal(int value)
+    {
+        return (decimal)value;
     }
 }
