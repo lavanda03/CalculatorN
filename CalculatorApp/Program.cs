@@ -6,7 +6,7 @@ if(string.IsNullOrEmpty(expression))
     Console.WriteLine("Expresie invalida");
 else
 {
-    var result = CalculatorService.CalculationsService.Execute(expression);
+    var result = (decimal)CalculatorService.CalculationsService.Execute(expression);
     Console.WriteLine(result);
 }
 

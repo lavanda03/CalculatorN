@@ -33,7 +33,7 @@ public static class CalculationsService
         return result;
     }
 
-    private static int Calculate(string expression)
+    public static int Calculate(string expression)
     {
         if (IsSingleNumber(expression, out int num))
             return num;
@@ -47,7 +47,7 @@ public static class CalculationsService
 
         foreach (var c in expression)
         {
-            if (char.IsDigit(c))
+            if (char.IsDigit(c) || c == '.')
             {
                 currentNumber.Append(c);
 
@@ -93,7 +93,7 @@ public static class CalculationsService
     }
 
 
-    private static bool WithoutParenthesis(string expression, out string executedExpressions)
+    public static bool WithoutParenthesis(string expression, out string executedExpressions)
     {
         if (!expression.Any(x => x is '(' or ')'))
         {
@@ -196,7 +196,7 @@ public static class CalculationsService
 
         operators.Clear();
 
-        var result = 0;
+        int result = 0;
         switch (op)
         {
             case '+':
@@ -217,6 +217,7 @@ public static class CalculationsService
         if (negativeNumber)
             result *= -1;
 
+      
         return result;
     }
 
@@ -260,6 +261,6 @@ public static class CalculationsService
 
     public static bool IsSingleNumberAndSimbols(string expression)
     {
-        return !Regex.IsMatch(expression, @"[^0-9*/+\-()]");
+        return !Regex.IsMatch(expression, @"[^0-9*/+\-()\.]");
     }
 }
