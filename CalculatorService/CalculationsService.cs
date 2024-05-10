@@ -1,17 +1,19 @@
-﻿using System.Text;
+﻿using System.Security.Claims;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace CalculatorService;
 
 public static class CalculationsService
 {
-    public static int Execute(string expression)
+    public static double Execute(string expression)
     {
+
         expression = expression.Trim().Replace(" ", "");
 
-        int result = 0;
-        try
-        {
+        double result = 0;
+       try
+       {
             if (!IsSingleNumberAndSimbols(expression))
             {
                 throw new Exception("Introduceti doar cifrele 1-9 si semnele respective : /,+,* -; ");
@@ -33,7 +35,7 @@ public static class CalculationsService
         return result;
     }
 
-    public static int Calculate(string expression)
+    public static double Calculate(string expression)
     {
         if (IsSingleNumber(expression, out int num))
             return num;
@@ -41,8 +43,8 @@ public static class CalculationsService
         Stack<char> operators = new Stack<char>();
         StringBuilder currentNumber = new StringBuilder();
 
-        int? firstNumber = null;
-        int secondNumber = 0;
+        double? firstNumber = null;
+        double secondNumber = 0;
         bool foundFirstNumber = false;
 
         foreach (var c in expression)
@@ -52,15 +54,15 @@ public static class CalculationsService
                 currentNumber.Append(c);
 
                 if (firstNumber.HasValue)
-                    secondNumber = int.Parse(currentNumber.ToString());
+                    secondNumber = double.Parse(currentNumber.ToString());
             }
             else
             {
-                if (!string.IsNullOrEmpty(currentNumber.ToString()))
+                if (currentNumber.Length > 0)
                 {
                     if (!firstNumber.HasValue)
                     {
-                        firstNumber = int.Parse(currentNumber.ToString());
+                        firstNumber = double.Parse(currentNumber.ToString());
                         foundFirstNumber = true;
                     }
                     else
@@ -105,7 +107,6 @@ public static class CalculationsService
         int firstClosedParenthesisIndex = -1;
         bool foundFirstPair = false;
 
-        // Căutăm prima pereche de paranteze deschise și închise care corespund
         for (int i = 0; i < expression.Length; i++)
         {
             if (expression[i] == '(')
@@ -121,26 +122,20 @@ public static class CalculationsService
             else if (expression[i] == ')' && lastOpenParenthesisIndex == -1)
             {
                 throw new Exception("Lipseste paranteza deschisa '(' ");
-               
-                //expression = "(" + expression;
-                //lastOpenParenthesisIndex = 0;
             }
         }
 
-        
+
         if (!foundFirstPair)
         {
             throw new Exception("Lipseste paranteza inchisa ')' ");
-            
-            //expression += ")";
-           // firstClosedParenthesisIndex = expression.Length - 1;
         }
 
         string parenthesisExpression = expression
             .Substring(lastOpenParenthesisIndex, firstClosedParenthesisIndex - lastOpenParenthesisIndex)
             .Replace("(", "").Replace(")", "");
 
-        
+
         string parenthesisExpressionResult = Calculate(parenthesisExpression).ToString();
 
         executedExpressions = expression.Remove(lastOpenParenthesisIndex,
@@ -152,23 +147,25 @@ public static class CalculationsService
     }
 
 
-    public static int Operate(Stack<char> operators, int number1, int number2)
+    public static double Operate(Stack<char> operators, double number1, double number2)
     {
         char op = ' ';
         bool negativeNumber = false;
+      
 
         if (HasInvalidCombination(operators))
         {
             throw new Exception("Combinație invalidă de semne.");
         }
-        
+
         if (operators.TryPeek(out char lasOperator) && lasOperator == '-')
         {
             char prevOperator = operators.ElementAt(operators.Count - 1);
 
-            if (prevOperator == '/' || prevOperator == '*')
+            if ((prevOperator == '/' || prevOperator == '*'))
             {
-                negativeNumber = true;
+                var ex = operators.Count(x => x == '-') % 2 == 0 ? negativeNumber = false : negativeNumber = true;
+              //   negativeNumber = true;
                 operators.Pop();
                 op = prevOperator;
             }
@@ -188,14 +185,17 @@ public static class CalculationsService
             op = operators.Pop();
         }
 
-        else
-        {
-            op = operators.Count(x => x == '-') % 2 == 0 ? '+' : '-';
-        }
+        foreach (var c in operators)
+        
+            if (c == '-' && c == '+' )
+            {
+                op = operators.Count(x => x == '-') % 2 == 0 ? '+' : '-';
+            }
+        
 
         operators.Clear();
 
-        int result = 0;
+        double result = 0;
         switch (op)
         {
             case '+':
@@ -209,17 +209,20 @@ public static class CalculationsService
                 break;
             case '/':
                 result = number1 / number2;
-                 break;
-              
+                break;
+
         }
+
+        if (double.IsPositiveInfinity(result))
+            throw new DivideByZeroException();
 
         if (negativeNumber)
             result *= -1;
 
-      
+
         return result;
     }
-
+    
     public static bool IsSingleNumber(string expression, out int num)
     {
         int startIndex = 0;
@@ -243,7 +246,7 @@ public static class CalculationsService
 
     public static bool HasInvalidCombination(Stack<char> stack)
     {
-        string[] invalidCombination = { "**", "//", "*/", "/*", "+*", "*+", "/+","+/", "/-","*-","--/","--*" };
+        string[] invalidCombination = { "**", "//", "*/", "/*", "+*", "*+", "/+", "+/", "/-", "*-" };
 
         string stackString = new string(stack.ToArray());
 
@@ -262,10 +265,5 @@ public static class CalculationsService
     public static bool IsSingleNumberAndSimbols(string expression)
     {
         return !Regex.IsMatch(expression, @"[^0-9*/+\-()\.]");
-    }
-
-    public static decimal ConvertIntToDecimal(int value)
-    {
-        return (decimal)value;
     }
 }

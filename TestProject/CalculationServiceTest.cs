@@ -1,11 +1,7 @@
 namespace TestProject
 {
     using CalculatorService;
-    using Microsoft.VisualStudio.TestPlatform.ObjectModel.DataCollection;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Collections;
-    using System.Linq.Expressions;
-    using System.Reflection;
 
     [TestClass]
     public class CalculationServiceTest
@@ -24,17 +20,14 @@ namespace TestProject
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "Introduceti doar cifrele 1-9 si semnele respective : /,+,* -;")]
         public void IsNotOnlySingleNumberAndSymbols_ExceptionTest()
         {
             string expression = "3+!-A*10";
 
-            CalculationsService.IsSingleNumberAndSimbols(expression);
+            var actual = CalculationsService.IsSingleNumberAndSimbols(expression);
 
-              
-            // Assert.AreEqual("Introduceti doar cifrele 1-9 si semnele respective : /,+,* -;",ex.Message);
-                
-            
+            Assert.IsFalse(actual);
+
         }
 
 
@@ -122,7 +115,7 @@ namespace TestProject
             int num2 = 2;
 
 
-            int result = CalculationsService.Operate(stack, num1, num2);
+            double result = CalculationsService.Operate(stack, num1, num2);
 
             Assert.AreEqual(6, result);
 
@@ -138,7 +131,7 @@ namespace TestProject
             int num1 = 9;
             int num2 = 3;
 
-            int result = CalculationsService.Operate(stack, num1, num2);
+            double result = CalculationsService.Operate(stack, num1, num2);
 
             Assert.AreEqual(-3, result);
         }
@@ -152,7 +145,7 @@ namespace TestProject
             int number1 = 5;
             int number2 = 4;
 
-            int result = CalculationsService.Operate(operators, number1, number2);
+            double result = CalculationsService.Operate(operators, number1, number2);
 
             Assert.AreEqual(9, result);
         }
@@ -166,7 +159,7 @@ namespace TestProject
             int number1 = 5;
             int number2 = 4;
 
-            int result = CalculationsService.Operate(operators, number1, number2);
+            double result = CalculationsService.Operate(operators, number1, number2);
 
             Assert.AreEqual(1, result);
         }
@@ -179,14 +172,13 @@ namespace TestProject
             int number1 = 20;
             int number2 = 4;
 
-            int result = CalculationsService.Operate(operators, number1, number2);
+            double result = CalculationsService.Operate(operators, number1, number2);
 
             Assert.AreEqual(5, result);
         }
 
 
         [TestMethod]
-        [ExpectedException(typeof(DivideByZeroException))]
         public void Operate_DivTo0Test()
         {
             Stack<char> operators = new Stack<char>();
@@ -194,9 +186,7 @@ namespace TestProject
             int number1 = 20;
             int number2 = 0;
 
-            int result = CalculationsService.Operate(operators, number1, number2);
-
-            //Assert.ThrowsException<DivideByZeroException>(() => result); 
+            Assert.ThrowsException<DivideByZeroException>(() => CalculationsService.Operate(operators, number1, number2));
 
         }
 
@@ -209,12 +199,23 @@ namespace TestProject
             int number1 = 6;
             int number2 = 4;
 
-            int result = CalculationsService.Operate(operators, number1, number2);
+            double result = CalculationsService.Operate(operators, number1, number2);
 
             Assert.AreEqual(24, result);
         }
 
-        //operate impartirea cu virgula
+        //[TestMethod]
+        public void Operate_InvalidCombinationTest()
+        {
+            Stack<char> operators = new Stack<char>();
+            operators.Push('-');
+            operators.Push('+');
+            operators.Push('*');
+            var number1 = 1;
+            var number2 = 2;
+
+            Assert.ThrowsException<Exception>(() => CalculationsService.Operate(operators, number1, number2));
+        }
 
 
         //WithoutParanthesis
@@ -243,65 +244,97 @@ namespace TestProject
         }
 
         [TestMethod]
-        public void WithoutParanthesis_OpenPharantesis()
+        public void WithoutParanthesis_MissingOpenPharantesis()
         {
-            string expression = "(-(-6+5))";
-            int lastOpenParenthesisIndex = -1;
-
-            for (int i = 0; i < expression.Length; i++)
-            {
-                if (expression[i] == '(')
-                {
-                    lastOpenParenthesisIndex = i;
-                }
-
-            }
-            Assert.AreEqual(2, lastOpenParenthesisIndex);
-
+            string expression = "6+5)";
+            Assert.ThrowsException<Exception>(() => CalculationsService.WithoutParenthesis(expression, out expression));
         }
 
         [TestMethod]
-        public void WithoutParanthesis_ClosePharantesis()
+        public void WithoutParanthesis_MissingClosePharantesis()
         {
-            string expression = "(-(-6+5))";
-            int firstClosedParenthesisIndex = -1;
-            int lastOpenParenthesisIndex = 2;
+            string expression = "(-6+5";
 
-
-            for (int i = 0; i < expression.Length; i++)
-            {
-                if (expression[i] == ')' && lastOpenParenthesisIndex != -1)
-                {
-                    firstClosedParenthesisIndex = i;
-                }
-
-            }
-            Assert.AreEqual(8, firstClosedParenthesisIndex);
+            Assert.ThrowsException<Exception>(() => CalculationsService.WithoutParenthesis(expression, out expression));
 
         }
-         //trebuie ambele exceptii pentru ()
+
 
         //calculate
         [TestMethod]
-        public void  Calculate_Test ()
+        public void Calculate_Test()
         {
             string expression = "3+6";
-           
+
             var result = CalculationsService.Calculate(expression);
 
             Assert.AreEqual(9, result);
         }
 
+        [TestMethod]
+        public void Calculate_SingleNumberTest()
+        {
+            string expression = "1";
+
+            var result = CalculationsService.Calculate(expression);
+
+            Assert.AreEqual(1, result);
+        }
+
+        [TestMethod]
+        public void Calculate_NegativeNumberTest()
+        {
+            string expression = "-1-1";
+
+            var result = CalculationsService.Calculate(expression);
+
+            Assert.AreEqual(-2, result);
+        }
+
+
         //execute
         [TestMethod]
-        public void execute_Test()
+        public void Execute_Test()
         {
             string expression = "5/2";
 
-            decimal result = CalculationsService.Execute(expression);
+            double result = CalculationsService.Execute(expression);
 
-            Assert.AreEqual(2.5m , result);
+            Assert.AreEqual(2.5, result);
         }
+
+
+        [TestMethod]
+        public void Execute_WithPharantesis()
+        {
+            var expression = "(3+4)";
+
+            var result = CalculationsService.Execute(expression);
+
+            Assert.AreEqual(7, result);
+        }
+
+        [TestMethod]
+        public void Execute_WithoutPharantesis()
+        {
+            var exrepssion = "2+6";
+
+            var result = CalculationsService.Execute(exrepssion);
+
+            Assert.AreEqual(8, result); 
+        }
+
+        [TestMethod]
+        public void Execute_SingleNumber()
+        {
+            var expression = "3";
+
+            var result = CalculationsService.Execute(expression);
+
+            Assert.AreEqual(3, result); 
+
+        }
+
     }
-    
+
 }
