@@ -1,12 +1,14 @@
-﻿using System.Security.Claims;
+﻿using CalculatorService.Exceptions;
+using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
 
+
 namespace CalculatorService;
 
-public static class CalculationsService
+public class CalculationsService
 {
-    public static double Execute(string expression)
+    public  double Execute(string expression)
     {
 
         expression = expression.Trim().Replace(" ", "");
@@ -16,7 +18,7 @@ public static class CalculationsService
        {
             if (!IsSingleNumberAndSimbols(expression))
             {
-                throw new Exception("Introduceti doar cifrele 1-9 si semnele respective : /,+,* -; ");
+               throw new Exception ("Introduceti doar cifrele 1-9 si semnele respective : /,+,* -; ");
             }
 
             while (WithoutParenthesis(expression, out expression))
@@ -184,6 +186,11 @@ public static class CalculationsService
         {
             op = operators.Pop();
         }
+        
+       else if (operators.Peek() == '+')
+       {
+            op = operators.Peek();
+       }
 
         foreach (var c in operators)
         
