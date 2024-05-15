@@ -4,11 +4,11 @@ using System.Linq.Expressions;
 
 namespace WebApplication1.Controllers
 {
-    public class Calculator : Controller
+    public class Calculatorr : Controller
     {
         private readonly CalculationsService _calculatorService; 
 
-        public Calculator()
+        public Calculatorr()
         {
             _calculatorService = new CalculationsService();
         }
