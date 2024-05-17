@@ -7,7 +7,7 @@ namespace WebApplication1.Controllers
 {
     public class HomeController : Controller
     {
-		/*private readonly ILogger<HomeController> _logger;
+		private readonly ILogger<HomeController> _logger;
 		public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -27,27 +27,10 @@ namespace WebApplication1.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }*/
+        }
 
 
 
-		private readonly CalculationsService _calculatorService;
-
-		public HomeController()
-		{
-			_calculatorService = new CalculationsService();
-		}
-		public IActionResult Index()
-		{
-			return View();
-		}
-
-        [HttpPost]
-		public IActionResult Execute(string expression)
-		{
-			var result = _calculatorService.Execute(expression);
-			return View(result);
-
-		}
+		
 	}
 }

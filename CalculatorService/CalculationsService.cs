@@ -44,6 +44,7 @@ public class CalculationsService
 
         Stack<char> operators = new Stack<char>();
         StringBuilder currentNumber = new StringBuilder();
+      
 
         double? firstNumber = null;
         double secondNumber = 0;
