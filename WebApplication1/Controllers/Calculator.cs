@@ -6,22 +6,24 @@ namespace WebApplication1.Controllers
 {
     public class Calculator : Controller
     {
-        private readonly CalculationsService _calculatorService; 
-
+        private readonly CalculationsService _calculatorService;
+        
         public Calculator()
         {
             _calculatorService = new CalculationsService();
         }
-        public IActionResult Index()
+        public IActionResult Index(string expression)
         { 
             return View();
+           
         }
 
         public IActionResult Execute (string expression)
         {
             var result = _calculatorService.Execute(expression);
-            ViewData["Result"] = result;
-            return View();
+           // ViewData["Result"] = result;
+            ViewBag.Result = result;
+            return View("Index");
 
         }
     }

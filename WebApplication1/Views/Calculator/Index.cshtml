@@ -46,35 +46,41 @@
 	<!-- Create table -->
 	<table id="calcu">
 		<tr> 
-			<td colspan="3">
-				<input type="text" id="expression" name="expression" value="@ViewData[""]">
+			<td colspan="4">
+				<input type="text" id="expression" name="expression" value=@ViewBag.Result >
 			</td>
-			<td><input type="button" value="c" onclick="clr()" /></td>
+			
+		</tr>
+		<tr> 
+			<td><input type = "button" value="(" onclick="addToExpression('(')"></td>
+			<td><input type ="button" value=")" onclick="addToExpression(')')"></td>
+		    <td><input type="button" value="c" onclick="clr()"></td>
 		</tr>
 
 		<tr>
 			<td><input type="button" value="1" onclick="addToExpression('1')"></td>
 			<td><input type="button" value="2" onclick="addToExpression('2')"></td>
 			<td><input type="button" value="3" onclick="addToExpression('3')"></td>
-			<td><input type="button" value="/" onclick="addToExpression('/')"></td>
+			<td><input type="button" id="divideButton" value="/" onclick="addToExpression('/')"></td>
 		</tr>
 		<tr>
 			<td><input type="button" value="4" onclick="addToExpression('4')"></td>
 			<td><input type="button" value="5" onclick="addToExpression('5')"></td>
 			<td><input type="button" value="6" onclick="addToExpression('6')"></td>
-			<td><input type="button" value="*" onclick="addToExpression('*')"></td>
+			<td><input type="button" id="multipleButton" value="*" onclick="addToExpression('*')"></td>
 		</tr>
 		<tr>
 			<td><input type="button" value="7" onclick="addToExpression('7')"></td>
 			<td><input type="button" value="8" onclick="addToExpression('8')"></td>
 			<td><input type="button" value="9" onclick="addToExpression('9')"></td>
-			<td><input type="button" value="-" onclick="addToExpression('-')"></td>
+			<td><input type="button" id="minusButton" value="-" onclick="addToExpression('-')"></td>
 		</tr>
 		<tr>
 			<td><input type="button" value="0" onclick="addToExpression('0')"></td>
 			<td><input type="button" value="." onclick="addToExpression('.')"></td>
 			<td><input type="submit" value="=" /></td>
-			<td><input type="button" value="+" onclick="addToExpression('+')"></td>
+				<td><input type="button" id="plusButton" value="+" onclick="addToExpression('+')"></td>
+			
 
 		</tr>
 	</table>
@@ -83,6 +89,7 @@
 	<script>
 		function addToExpression(value) {
 			document.getElementById("expression").value += value
+			
 		}
 
 		function myFunction(event) {
@@ -102,9 +109,20 @@
 			document.getElementById("expression").value = ''
 		}
 
+	
+		}
+		document.getElementById("plusButton").addEventListener("click", function () {
+			if (!clicked) {
+				plusButtonValue = document.getElementById("plusButton").textContent;
+				document.getElementById("expression").value +=plusButtonValue;
+				clicked = true;
+			}
+		})
 		
 
 	</script>
+
+	
 </body>
 
 </html>
