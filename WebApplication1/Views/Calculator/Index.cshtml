@@ -42,55 +42,104 @@
 </head>
 
 <body>
-	<form asp-action="Execute" method="post" id="calculator-form">
+ 
+	<form asp-action="Execute" method="post" id="calculator-form" id="errorMessage">
+
+		@if (ViewBag.ErrorMessage != null)
+		{
+			<div class="alert alert-danger" role="alert">
+				@ViewBag.ErrorMessage
+			</div>
+
+		}
 	<!-- Create table -->
 	<table id="calcu">
 		<tr> 
 			<td colspan="4">
-				<input type="text" id="expression" name="expression" value=@ViewBag.Result >
+					<input type="text" id="expression" name="expression" value=@ViewBag.Result placeholder="Enter expression">
 			</td>
 			
 		</tr>
 		<tr> 
 			<td><input type = "button" value="(" onclick="addToExpression('(')"></td>
 			<td><input type ="button" value=")" onclick="addToExpression(')')"></td>
-		    <td><input type="button" value="c" onclick="clr()"></td>
+		    <td colspan="2"><input type="button" value="c" onclick="clr()"></td>
 		</tr>
 
 		<tr>
 			<td><input type="button" value="1" onclick="addToExpression('1')"></td>
 			<td><input type="button" value="2" onclick="addToExpression('2')"></td>
 			<td><input type="button" value="3" onclick="addToExpression('3')"></td>
-			<td><input type="button" id="divideButton" value="/" onclick="addToExpression('/')"></td>
+				<td><input type="button" id="divbutn" class='btn btn-info btn-xs approvedbtn' data-dismiss='modal' tabindex="6" value="/" onclick="addToExpression('/')"></td>
 		</tr>
 		<tr>
 			<td><input type="button" value="4" onclick="addToExpression('4')"></td>
 			<td><input type="button" value="5" onclick="addToExpression('5')"></td>
 			<td><input type="button" value="6" onclick="addToExpression('6')"></td>
-			<td><input type="button" id="multipleButton" value="*" onclick="addToExpression('*')"></td>
+				<td><input type="button" id="multbtn" class='btn btn-info btn-xs approvedbtn' data-dismiss='modal' tabindex="6" value="*" onclick="addToExpression('*')"></td>
 		</tr>
 		<tr>
 			<td><input type="button" value="7" onclick="addToExpression('7')"></td>
 			<td><input type="button" value="8" onclick="addToExpression('8')"></td>
 			<td><input type="button" value="9" onclick="addToExpression('9')"></td>
-			<td><input type="button" id="minusButton" value="-" onclick="addToExpression('-')"></td>
+				<td><input type="button" id="minbtn" class='btn btn-info btn-xs approvedbtn' data-dismiss='modal' tabindex="6" value="-" onclick="addToExpression('-')"></td>
 		</tr>
 		<tr>
 			<td><input type="button" value="0" onclick="addToExpression('0')"></td>
 			<td><input type="button" value="." onclick="addToExpression('.')"></td>
 			<td><input type="submit" value="=" /></td>
-				<td><input type="button" id="plusButton" value="+" onclick="addToExpression('+')"></td>
-			
-
+				<td><input type="button" id="plsbtn" class='btn btn-info btn-xs approvedbtn' data-dismiss='modal' tabindex="6" value="+" onclick="addToExpression('+')" ></td>
 		</tr>
+
 	</table>
+
+	<label id="clicledButton"></label> 
+	
+		
 	</form>
+	
+	
 
 	<script>
+		var lastOperator = null;
+		var non = false;
+
+		
 		function addToExpression(value) {
-			document.getElementById("expression").value += value
-			
-		}
+
+				var expressionInput = document.getElementById("expression");
+				var currentValue = expressionInput.value;
+
+
+				if (/[+\-*\/]/.test(value) && non == false) {
+
+					if (/[+\-*\/]/.test(lastOperator)) {
+
+						if (/[*\/]/.test(lastOperator) && /[-]/.test(value)) {
+							expressionInput.value += value;
+							non = true;
+						}
+						else {
+							expressionInput.value = currentValue.slice(0, -1) + value;
+						}
+					}
+					else {
+						expressionInput.value += value;
+					}
+
+					lastOperator = value;
+				}
+
+				else if (!/[+\-*\/]/.test(value)) {
+					expressionInput.value += value;
+
+					lastOperator = null;
+					non = false;
+				}
+	    }
+		
+
+		
 
 		function myFunction(event) {
 			if (event.Key == '0' || event.Key == '1'
@@ -106,21 +155,27 @@
 		}
 
 		function clr() {
-			document.getElementById("expression").value = ''
+		
+			var expressionInput = document.getElementById("expression");
+			expressionInput.value = expressionInput.value.slice(0, -1);
+			
 		}
 
-	
-		}
-		document.getElementById("plusButton").addEventListener("click", function () {
-			if (!clicked) {
-				plusButtonValue = document.getElementById("plusButton").textContent;
-				document.getElementById("expression").value +=plusButtonValue;
-				clicked = true;
-			}
+
+		$('#plsbtn ,#minbtn ,#divbutn , #multbtn ').on('click', '.approvedbtn', function () {
+			$('#clickedButton').text($(this).text());
 		})
-		
+
+
+		document.getElementById('errorMessage').style.display = 'none';
+
+		var errorMessage = '@ViewBag.ErrorMessage'
+		if (errorMessage.trim() !== '') {
+			document.getElementById('errorMessage').style.display = 'block';
+		}
 
 	</script>
+
 
 	
 </body>

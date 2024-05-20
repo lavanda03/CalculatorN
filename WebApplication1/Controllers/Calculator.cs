@@ -20,11 +20,18 @@ namespace WebApplication1.Controllers
 
         public IActionResult Execute (string expression)
         {
-            var result = _calculatorService.Execute(expression);
-           // ViewData["Result"] = result;
-            ViewBag.Result = result;
-            return View("Index");
-
-        }
+            try
+            {
+                var result = _calculatorService.Execute(expression);
+                ViewBag.Result = result;
+               
+            }
+            catch(Exception ex) 
+            {
+                ViewBag.ErrorMesage=ex.Message; 
+                
+            }
+			return View("Index");
+		}
     }
 }
