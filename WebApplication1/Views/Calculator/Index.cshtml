@@ -103,15 +103,12 @@
 	<script>
 		var lastOperator = null;
 		var divMinus = false;
-
 		
 		function addToExpression(value) {
 
 				var expressionInput = document.getElementById("expression");
 				var currentValue = expressionInput.value;
 			    var lastChar = expressionInput.value.slice(-1);
-
-			   
 
 				if (/[+\-*\/]/.test(value) && divMinus == false) {
 
@@ -154,22 +151,6 @@
 				}
 	    }
 		
-
-		
-
-		function myFunction(event) {
-			if (event.Key == '0' || event.Key == '1'
-				|| event.Key == '2' || event.Key == '3'
-				|| event.Key == '4' || event.Key == '5'
-				|| event.Key == '6' || event.Key == '7'
-				|| event.key == '8' || event.key == '9'
-				|| event.key == '+' || event.key == '-'
-				|| event.key == '*' || event.key == '/')
-
-				document.getElementById("result").value += event.key;
-
-		}
-
 		function clr() {
 		
 			var expressionInput = document.getElementById("expression");
@@ -177,18 +158,13 @@
 			
 		}
 
-
 		$('#plsbtn ,#minbtn ,#divbutn , #multbtn ').on('click', '.approvedbtn', function () {
 			$('#clickedButton').text($(this).text());
 		})
 
+		
 
-		document.getElementById('errorMessage').style.display = 'none';
-
-		var errorMessage = '@ViewBag.ErrorMessage'
-		if (errorMessage.trim() !== '') {
-			document.getElementById('errorMessage').style.display = 'block';
-		}
+		
 
 	</script>
 

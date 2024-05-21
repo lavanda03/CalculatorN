@@ -1,4 +1,5 @@
 ﻿using CalculatorService.Exceptions;
+using System.Data;
 using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -42,7 +43,10 @@ public class CalculationsService
         double secondNumber = 0;
         bool foundFirstNumber = false;
 
-        foreach (var c in expression)
+        DataTable dt = new DataTable();
+        var result = dt.Compute(expression, "");
+
+		foreach (var c in expression)
         {
             if (char.IsDigit(c) || c == '.')
             {
@@ -53,6 +57,7 @@ public class CalculationsService
             }
             else
             {
+                //fac aici logica daca gasesc* sau / atunci 
                 if (currentNumber.Length > 0)
                 {
                     if (!firstNumber.HasValue)
@@ -92,6 +97,8 @@ public class CalculationsService
 
     public static bool WithoutParenthesis(string expression, out string executedExpressions)
     {
+      //chem metoda 
+
         if (!expression.Any(x => x is '(' or ')'))
         {
             executedExpressions = expression;
@@ -265,5 +272,29 @@ public class CalculationsService
     public static bool IsSingleNumberAndSimbols(string expression)
     {
         return !Regex.IsMatch(expression, @"[^0-9*/+\-()\.]");
+    }
+
+    public static string Priotizare(string expression)
+    {
+        var result = " ";
+        char plusOperand = '*';
+        char divOperand = '/';
+
+        for (int i = 0; i < expression.Length; i++)
+        {
+            if (expression[i] == plusOperand || expression[i] == divOperand)
+            {
+
+				char? previousChar = (i > 0) ? expression[i - 1] : (char?)null;
+				char? nextChar = (i < expression.Length - 1) ? expression[i + 1] : (char?)null;
+
+				
+
+			}
+
+
+		}
+
+       return "";
     }
 }

@@ -7,30 +7,42 @@ namespace WebApplication1.Controllers
 {
     public class HomeController : Controller
     {
-		private readonly ILogger<HomeController> _logger;
-		public HomeController(ILogger<HomeController> logger)
-        { 
-           _logger = logger;
-        }
-
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
 
 
+		private readonly CalculationsService _calculatorService;
 
-		
+		public HomeController()
+		{
+			_calculatorService = new CalculationsService();
+		}
+		public IActionResult Index(string expression)
+		{
+			return View();
+
+		}
+
+		public IActionResult Execute(string expression)
+		{
+			try
+			{
+				var result = _calculatorService.Execute(expression);
+				ViewBag.Result = result;
+				return View("Index");
+
+			}
+			catch (Exception)
+			{
+				ViewBag.Result = "Error";
+				return View("Index");
+
+			}
+
+
+		}
+
+
+
+
+
 	}
 }
