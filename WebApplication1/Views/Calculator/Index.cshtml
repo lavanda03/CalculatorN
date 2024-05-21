@@ -32,7 +32,7 @@
 
 		input[type="text"] {
 			padding: 20px 30px;
-			font-size: 24px;
+			font-size: 25px;
 			font-weight: bold;
 			border: none;
 			border-radius: 5px;
@@ -102,39 +102,55 @@
 
 	<script>
 		var lastOperator = null;
-		var non = false;
+		var divMinus = false;
 
 		
 		function addToExpression(value) {
 
 				var expressionInput = document.getElementById("expression");
 				var currentValue = expressionInput.value;
+			    var lastChar = expressionInput.value.slice(-1);
 
+			   
 
-				if (/[+\-*\/]/.test(value) && non == false) {
+				if (/[+\-*\/]/.test(value) && divMinus == false) {
 
 					if (/[+\-*\/]/.test(lastOperator)) {
 
 						if (/[*\/]/.test(lastOperator) && /[-]/.test(value)) {
 							expressionInput.value += value;
-							non = true;
+							divMinus = true;
 						}
+						
 						else {
 							expressionInput.value = currentValue.slice(0, -1) + value;
 						}
 					}
+
 					else {
-						expressionInput.value += value;
+						expressionInput.value +=  value;
 					}
 
 					lastOperator = value;
 				}
+			    else if (value === '(') 
+				 {
+				      if (!lastChar || /[*+\-\/(]/.test(lastChar))
+					  {
+					     expressionInput.value += value;
+				      }  
+					  else 
+					  {
+					     expressionInput.value += '*' + value;
+				      }
+
+			     }
 
 				else if (!/[+\-*\/]/.test(value)) {
 					expressionInput.value += value;
 
 					lastOperator = null;
-					non = false;
+					divMinus = false;
 				}
 	    }
 		

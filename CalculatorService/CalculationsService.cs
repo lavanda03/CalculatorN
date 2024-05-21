@@ -14,11 +14,9 @@ public class CalculationsService
         expression = expression.Trim().Replace(" ", "");
 
         double result = 0;
-       try
-       {
             if (!IsSingleNumberAndSimbols(expression))
             {
-               throw new Exception ("Introduceti doar cifrele 1-9 si semnele respective : /,+,* -; ");
+               throw new Exception ("Only digit and symbols");
             }
 
             while (WithoutParenthesis(expression, out expression))
@@ -26,13 +24,7 @@ public class CalculationsService
             }
 
             result = IsSingleNumber(expression, out var num) ? num : Calculate(expression);
-        }
-
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-            Environment.Exit(1);
-        }
+       
 
         return result;
     }
@@ -124,14 +116,14 @@ public class CalculationsService
             }
             else if (expression[i] == ')' && lastOpenParenthesisIndex == -1)
             {
-                throw new Exception("Lipseste paranteza deschisa '(' ");
+                throw new Exception("Missing the pharantesis'(' ");
             }
         }
 
 
         if (!foundFirstPair)
         {
-            throw new Exception("Lipseste paranteza inchisa ')' ");
+            throw new Exception("Missing the pharantesis ')' ");
         }
 
         string parenthesisExpression = expression
@@ -158,7 +150,7 @@ public class CalculationsService
 
         if (HasInvalidCombination(operators))
         {
-            throw new Exception("Combinație invalidă de semne.");
+            throw new Exception("Invalid combination.");
         }
 
         if (operators.TryPeek(out char lasOperator) && lasOperator == '-')
@@ -222,7 +214,7 @@ public class CalculationsService
         }
 
         if (double.IsPositiveInfinity(result))
-            throw new DivideByZeroException();
+            throw new DivideByZeroException("Infinity");
 
         if (negativeNumber)
             result *= -1;

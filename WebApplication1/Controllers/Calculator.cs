@@ -6,7 +6,7 @@ namespace WebApplication1.Controllers
 {
     public class Calculator : Controller
     {
-        private readonly CalculationsService _calculatorService;
+        private  readonly CalculationsService _calculatorService;
         
         public Calculator()
         {
@@ -18,20 +18,23 @@ namespace WebApplication1.Controllers
            
         }
 
-        public IActionResult Execute (string expression)
+        public  IActionResult Execute (string expression)
         {
             try
             {
                 var result = _calculatorService.Execute(expression);
                 ViewBag.Result = result;
-               
-            }
-            catch(Exception ex) 
-            {
-                ViewBag.ErrorMesage=ex.Message; 
-                
-            }
-			return View("Index");
+                return View("Index");
+
+			}
+			catch (Exception )
+			{
+                ViewBag.Result = "Error";
+				return View("Index");
+
+			}
+			
+
 		}
     }
 }
