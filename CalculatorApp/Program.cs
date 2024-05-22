@@ -6,7 +6,6 @@ Console.WriteLine("Introduceti expresia :");
 Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 
 var expression = Console.ReadLine();
-
 CalculationsService calcService = new CalculationsService(); 
 
 try

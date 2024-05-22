@@ -121,7 +121,11 @@
 						expressionInput.value += value;
 						divMinus = true;
 					}
-
+					else if (value == '-' && /\($/.test(lastChar) ) 
+					{
+							expressionInput.value += value;
+						
+					}
 					else {
 						expressionInput.value = currentValue.slice(0, -1) + value;
 					}
@@ -133,15 +137,12 @@
 
 				lastOperator = value;
 			}
-			else if (value === '(') {
+			else if (value == '(') {
 				if (!lastChar || /[*+\-\/(]/.test(lastChar)) {
 					expressionInput.value += value;
 				}
-				else {
-					expressionInput.value += '*' + value;
-				}
-
 			}
+			
 
 			else if (!/[+\-*\/]/.test(value)) {
 				expressionInput.value += value;

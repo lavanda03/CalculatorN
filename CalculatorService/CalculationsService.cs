@@ -9,292 +9,371 @@ namespace CalculatorService;
 
 public class CalculationsService
 {
-    public  double Execute(string expression)
-    {
+	public double Execute(string expression)
+	{
 
-        expression = expression.Trim().Replace(" ", "");
+		expression = expression.Trim().Replace(" ", "");
 
-        double result = 0;
-            if (!IsSingleNumberAndSimbols(expression))
-            {
-               throw new Exception ("Only digit and symbols");
-            }
+		double result = 0;
+		if (!IsSingleNumberAndSimbols(expression))
+		{
+			throw new Exception("Only digit and symbols");
+		}
 
-            while (WithoutParenthesis(expression, out expression))
-            {
-            }
+		while (WithoutParenthesis(expression, out expression))
+		{
+		}
 
-            result = IsSingleNumber(expression, out var num) ? num : Calculate(expression);
-       
+		result = IsSingleNumber(expression, out var num) ? num : Calculate(expression);
 
-        return result;
-    }
 
-    public static double Calculate(string expression)
-    {
-        if (IsSingleNumber(expression, out int num))
-            return num;
+		return result;
+	}
 
-        Stack<char> operators = new Stack<char>();
-        StringBuilder currentNumber = new StringBuilder();
-      
+	public static double Calculate(string expression)
+	{
+		if (IsSingleNumber(expression, out int num))
+			return num;
 
-        double? firstNumber = null;
-        double secondNumber = 0;
-        bool foundFirstNumber = false;
+		Stack<char> operators = new Stack<char>();
+		StringBuilder currentNumber = new StringBuilder();
 
-        DataTable dt = new DataTable();
-        var result = dt.Compute(expression, "");
+
+		double? firstNumber = null;
+		double secondNumber = 0;
+		bool foundFirstNumber = false;
+
+		DataTable dt = new DataTable();
+		var result = dt.Compute(expression, "");
 
 		foreach (var c in expression)
-        {
-            if (char.IsDigit(c) || c == '.')
-            {
-                currentNumber.Append(c);
+		{
+			if (char.IsDigit(c) || c == '.')
+			{
+				currentNumber.Append(c);
 
-                if (firstNumber.HasValue)
-                    secondNumber = double.Parse(currentNumber.ToString());
-            }
-            else
-            {
-                //fac aici logica daca gasesc* sau / atunci 
-                if (currentNumber.Length > 0)
-                {
-                    if (!firstNumber.HasValue)
-                    {
-                        firstNumber = double.Parse(currentNumber.ToString());
-                        foundFirstNumber = true;
-                    }
-                    else
-                    {
-                        firstNumber = Operate(operators, firstNumber.Value, secondNumber);
-                    }
+				if (firstNumber.HasValue)
+					secondNumber = double.Parse(currentNumber.ToString());
+			}
+			else
+			{
+				//fac aici logica daca gasesc* sau / atunci 
+				if (currentNumber.Length > 0)
+				{
+					if (!firstNumber.HasValue)
+					{
+						firstNumber = double.Parse(currentNumber.ToString());
+						foundFirstNumber = true;
+					}
+					else
+					{
+						firstNumber = Operate(operators, firstNumber.Value, secondNumber);
+					}
 
-                    currentNumber = new StringBuilder();
-                }
-
-
-                if (c == '-' && !foundFirstNumber)
-                {
-                    currentNumber.Append(c);
-                }
-
-                else
-                {
-                    operators.Push(c);
-                }
-            }
-        }
-
-        if (operators.Count > 0)
-        {
-            firstNumber = Operate(operators, firstNumber.Value, secondNumber);
-        }
-
-        return firstNumber.Value;
-    }
+					currentNumber = new StringBuilder();
+				}
 
 
-    public static bool WithoutParenthesis(string expression, out string executedExpressions)
-    {
-      //chem metoda 
+				if (c == '-' && !foundFirstNumber)
+				{
+					currentNumber.Append(c);
+				}
 
-        if (!expression.Any(x => x is '(' or ')'))
-        {
-            executedExpressions = expression;
-            return false;
-        }
+				else
+				{
+					operators.Push(c);
+				}
+			}
+		}
 
-        int lastOpenParenthesisIndex = -1;
-        int firstClosedParenthesisIndex = -1;
-        bool foundFirstPair = false;
+		if (operators.Count > 0)
+		{
+			firstNumber = Operate(operators, firstNumber.Value, secondNumber);
+		}
 
-        for (int i = 0; i < expression.Length; i++)
-        {
-            if (expression[i] == '(')
-            {
-                lastOpenParenthesisIndex = i;
-            }
-            else if (expression[i] == ')' && lastOpenParenthesisIndex != -1)
-            {
-                firstClosedParenthesisIndex = i;
-                foundFirstPair = true;
-                break;
-            }
-            else if (expression[i] == ')' && lastOpenParenthesisIndex == -1)
-            {
-                throw new Exception("Missing the pharantesis'(' ");
-            }
-        }
+		return firstNumber.Value;
+	}
 
 
-        if (!foundFirstPair)
-        {
-            throw new Exception("Missing the pharantesis ')' ");
-        }
+	public static bool WithoutParenthesis(string expression, out string executedExpressions)
+	{
+		//chem metoda 
 
-        string parenthesisExpression = expression
-            .Substring(lastOpenParenthesisIndex, firstClosedParenthesisIndex - lastOpenParenthesisIndex)
-            .Replace("(", "").Replace(")", "");
+		if (!expression.Any(x => x is '(' or ')'))
+		{
+			executedExpressions = expression;
+			return false;
+		}
 
+		int lastOpenParenthesisIndex = -1;
+		int firstClosedParenthesisIndex = -1;
+		bool foundFirstPair = false;
 
-        string parenthesisExpressionResult = Calculate(parenthesisExpression).ToString();
-
-        executedExpressions = expression.Remove(lastOpenParenthesisIndex,
-                firstClosedParenthesisIndex - lastOpenParenthesisIndex + 1)
-            .Insert(lastOpenParenthesisIndex, parenthesisExpressionResult);
-
-
-        return true;
-    }
-
-
-    public static double Operate(Stack<char> operators, double number1, double number2)
-    {
-        char op = ' ';
-        bool negativeNumber = false;
-      
-
-        if (HasInvalidCombination(operators))
-        {
-            throw new Exception("Invalid combination.");
-        }
-
-        if (operators.TryPeek(out char lasOperator) && lasOperator == '-')
-        {
-            char prevOperator = operators.ElementAt(operators.Count - 1);
-
-            if ((prevOperator == '/' || prevOperator == '*'))
-            {
-                var ex = operators.Count(x => x == '-') % 2 == 0 ? negativeNumber = false : negativeNumber = true;
-              //   negativeNumber = true;
-                operators.Pop();
-                op = prevOperator;
-            }
-            else
-            {
-                op = operators.Count(x => x == '-') % 2 == 0 ? '+' : '-';
-            }
-        }
-
-        if (operators.Peek() == '*')
-        {
-            op = operators.Pop();
-        }
-
-        else if (operators.Peek() == '/')
-        {
-            op = operators.Pop();
-        }
-        
-       else if (operators.Peek() == '+')
-       {
-            op = operators.Peek();
-       }
-
-        foreach (var c in operators)
-        
-            if (c == '-' && c == '+' )
-            {
-                op = operators.Count(x => x == '-') % 2 == 0 ? '+' : '-';
-            }
-        
-
-        operators.Clear();
-
-        double result = 0;
-        switch (op)
-        {
-            case '+':
-                result = number1 + number2;
-                break;
-            case '-':
-                result = number1 - number2;
-                break;
-            case '*':
-                result = number1 * number2;
-                break;
-            case '/':
-                result = number1 / number2;
-                break;
-
-        }
-
-        if (double.IsPositiveInfinity(result))
-            throw new DivideByZeroException("Infinity");
-
-        if (negativeNumber)
-            result *= -1;
+		for (int i = 0; i < expression.Length; i++)
+		{
+			if (expression[i] == '(')
+			{
+				lastOpenParenthesisIndex = i;
+			}
+			else if (expression[i] == ')' && lastOpenParenthesisIndex != -1)
+			{
+				firstClosedParenthesisIndex = i;
+				foundFirstPair = true;
+				break;
+			}
+			else if (expression[i] == ')' && lastOpenParenthesisIndex == -1)
+			{
+				throw new Exception("Missing the pharantesis'(' ");
+			}
+		}
 
 
-        return result;
-    }
-    
-    public static bool IsSingleNumber(string expression, out int num)
-    {
-        int startIndex = 0;
-        var operators = new List<char>();
+		if (!foundFirstPair)
+		{
+			throw new Exception("Missing the pharantesis ')' ");
+		}
 
-        while (startIndex < expression.Length && (expression[startIndex] == '-' || expression[startIndex] == '+'))
-        {
-            operators.Add(expression[startIndex]);
-            startIndex++;
-        }
-
-        if (int.TryParse(expression.Substring(startIndex), out num))
-        {
-            num = operators.Count(x => x == '-') % 2 == 0 ? num : num * -1;
-
-            return true;
-        }
-
-        return false;
-    }
-
-    public static bool HasInvalidCombination(Stack<char> stack)
-    {
-        string[] invalidCombination = { "**", "//", "*/", "/*", "+*", "*+", "/+", "+/", "/-", "*-" };
-
-        string stackString = new string(stack.ToArray());
-
-        foreach (string c in invalidCombination)
-        {
-            if (stackString.Contains(c))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
+		string parenthesisExpression = expression
+			.Substring(lastOpenParenthesisIndex, firstClosedParenthesisIndex - lastOpenParenthesisIndex)
+			.Replace("(", "").Replace(")", "");
 
 
-    public static bool IsSingleNumberAndSimbols(string expression)
-    {
-        return !Regex.IsMatch(expression, @"[^0-9*/+\-()\.]");
-    }
+		string parenthesisExpressionResult = Calculate(parenthesisExpression).ToString();
 
-    public static string Priotizare(string expression)
-    {
-        var result = " ";
-        char plusOperand = '*';
-        char divOperand = '/';
+		executedExpressions = expression.Remove(lastOpenParenthesisIndex,
+				firstClosedParenthesisIndex - lastOpenParenthesisIndex + 1)
+			.Insert(lastOpenParenthesisIndex, parenthesisExpressionResult);
 
-        for (int i = 0; i < expression.Length; i++)
-        {
-            if (expression[i] == plusOperand || expression[i] == divOperand)
-            {
+
+		return true;
+	}
+
+
+	public static double Operate(Stack<char> operators, double number1, double number2)
+	{
+		char op = ' ';
+		bool negativeNumber = false;
+
+
+		if (HasInvalidCombination(operators))
+		{
+			throw new Exception("Invalid combination.");
+		}
+
+		if (operators.TryPeek(out char lasOperator) && lasOperator == '-')
+		{
+			char prevOperator = operators.ElementAt(operators.Count - 1);
+
+			if ((prevOperator == '/' || prevOperator == '*'))
+			{
+				var ex = operators.Count(x => x == '-') % 2 == 0 ? negativeNumber = false : negativeNumber = true;
+				//   negativeNumber = true;
+				operators.Pop();
+				op = prevOperator;
+			}
+			else
+			{
+				op = operators.Count(x => x == '-') % 2 == 0 ? '+' : '-';
+			}
+		}
+
+		if (operators.Peek() == '*')
+		{
+			op = operators.Pop();
+		}
+
+		else if (operators.Peek() == '/')
+		{
+			op = operators.Pop();
+		}
+
+		else if (operators.Peek() == '+')
+		{
+			op = operators.Peek();
+		}
+
+		foreach (var c in operators)
+
+			if (c == '-' && c == '+')
+			{
+				op = operators.Count(x => x == '-') % 2 == 0 ? '+' : '-';
+			}
+
+
+		operators.Clear();
+
+		double result = 0;
+		switch (op)
+		{
+			case '+':
+				result = number1 + number2;
+				break;
+			case '-':
+				result = number1 - number2;
+				break;
+			case '*':
+				result = number1 * number2;
+				break;
+			case '/':
+				result = number1 / number2;
+				break;
+
+		}
+
+		if (double.IsPositiveInfinity(result))
+			throw new DivideByZeroException("Infinity");
+
+		if (negativeNumber)
+			result *= -1;
+
+
+		return result;
+	}
+
+	public static bool IsSingleNumber(string expression, out int num)
+	{
+		int startIndex = 0;
+		var operators = new List<char>();
+
+		while (startIndex < expression.Length && (expression[startIndex] == '-' || expression[startIndex] == '+'))
+		{
+			operators.Add(expression[startIndex]);
+			startIndex++;
+		}
+
+		if (int.TryParse(expression.Substring(startIndex), out num))
+		{
+			num = operators.Count(x => x == '-') % 2 == 0 ? num : num * -1;
+
+			return true;
+		}
+
+		return false;
+	}
+
+	public static bool HasInvalidCombination(Stack<char> stack)
+	{
+		string[] invalidCombination = { "**", "//", "*/", "/*", "+*", "*+", "/+", "+/", "/-", "*-" };
+
+		string stackString = new string(stack.ToArray());
+
+		foreach (string c in invalidCombination)
+		{
+			if (stackString.Contains(c))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+
+	public static bool IsSingleNumberAndSimbols(string expression)
+	{
+		return !Regex.IsMatch(expression, @"[^0-9*/+\-()\.]");
+	}
+
+	public static string Priotizare(string expression)
+	{
+		var result = " ";
+		char plusOperand = '*';
+		char divOperand = '/';
+
+		for (int i = 0; i < expression.Length; i++)
+		{
+			if (expression[i] == plusOperand || expression[i] == divOperand)
+			{
 
 				char? previousChar = (i > 0) ? expression[i - 1] : (char?)null;
 				char? nextChar = (i < expression.Length - 1) ? expression[i + 1] : (char?)null;
 
-				
+
 
 			}
 
 
 		}
 
-       return "";
-    }
+		return "";
+	}
+
+
+	public static string AddParentheses(string expression)
+    {
+       
+        
+            StringBuilder result = new StringBuilder();
+            for (int i = 0; i < expression.Length; i++)
+            {
+                char c = expression[i];
+                int count=0;
+                if (c == '*' || c == '/')
+                {
+                    // Identificăm operandul anterior
+                    StringBuilder previousOperand = new StringBuilder();
+                    int j = i - 1;
+                    while (j >= 0 && (char.IsDigit(expression[j]) || expression[j] == '.'))
+                    {
+                        previousOperand.Insert(0, expression[j]);
+                        j--;
+                        count++;
+                       
+                    }
+
+                    // Construim expresia între paranteze și o adăugăm la rezultat
+                    if (result.Length > 0)
+                    {
+                        result.Remove(result.Length-1 ,1 ); // Șterge ultimul caracter
+                    }
+                    result.Append("(");
+                    result.Append(previousOperand);
+                   int m = 0;
+                   for(m = i; m<expression.Length;m++)
+				   {
+					  if (m + 1 < expression.Length && !char.IsDigit(expression[m]))
+					  {
+                        result.Append(expression[m]);
+					  }
+
+                    if (char.IsDigit(expression[m]))
+                     {
+						
+                        break;
+					}
+
+				   }
+                   // result.Append(c);
+                  
+
+                    // Identificăm operandul următor
+                    StringBuilder nextOperand = new StringBuilder();
+                    j = m ;
+                    while (j < expression.Length && (char.IsDigit(expression[j]) || expression[j] == '.'))
+                    {
+                        nextOperand.Append(expression[j]);
+                        j++;
+                    }
+
+                    // Adăugăm operandul următor, fără a-l dubla
+                    result.Append(nextOperand);
+                    result.Append(")");
+
+                    i = m;
+                    // Saltăm peste următorul operand
+                   // i += nextOperand.Length;
+                }
+                else
+                {
+                    // Dacă nu este un operator *, adăugăm caracterul la rezultat
+                    result.Append(c);
+                }
+            }
+
+            // Returnăm rezultatul final
+            return result.ToString();
+     }
+    
 }
+
+
