@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalculatorService", "Calcul
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalculatorTest", "TestProject\CalculatorTest.csproj", "{445C312E-7428-4A83-BE7F-34E130E85A72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{817E5162-BA41-409F-8A3D-F3B88BAD011D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalculatorWebApp", "WebApplication1\CalculatorWebApp.csproj", "{817E5162-BA41-409F-8A3D-F3B88BAD011D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

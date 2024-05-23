@@ -47,7 +47,7 @@ public class CalculationsService
 		double? firstNumber = null;
 		double secondNumber = 0;
 		bool foundFirstNumber = false;
-		char[] operand = { '*', '/' };
+		char[] prioritizedOperand = { '*', '/' };
 
 		for (int c = 0;c< expression.Length;c++)
 		{
@@ -55,7 +55,7 @@ public class CalculationsService
 			while ( expression.Contains('*') || expression.Contains('/'))
 			{
 				//firstNumber
-				int indexOper = expression.IndexOfAny(operand); //index curent al op * sau /
+				int indexOper = expression.IndexOfAny(prioritizedOperand); // curent index * or /
 				operators.Push(expression[indexOper]);
 
 				int indexOperLeft = indexOper - 1;
@@ -73,7 +73,6 @@ public class CalculationsService
 
 				//second number
 				
-				int count = 0;
 				int indexOpeRight = 0;
 
 				for (  indexOpeRight = indexOper + 1; indexOpeRight < expression.Length; indexOpeRight++)
@@ -81,8 +80,7 @@ public class CalculationsService
 					if (expression[indexOpeRight] == '-')
 					{
 						operators.Push(expression[indexOpeRight]);
-						count++;
-					
+						
 					}
 
 					else
@@ -108,8 +106,8 @@ public class CalculationsService
 
 				expression = expression.Remove(indexOperLeft+1, indexOpeRight - indexOperLeft-1).Insert(indexOperLeft+1, result);
 
-				if (IsSingleNumber(expression, out int numar))
-					return numar;
+				if (IsSingleNumber(expression, out int number))
+					return number;
 
 				firstNumber = null;
 				secondNumber = 0;
@@ -128,8 +126,7 @@ public class CalculationsService
 
 			else
 			{
-					//fac aici logica daca gasesc* sau / atunci 
-
+		
 					if (currentNumber.Length > 0)
 					{
 						if (!firstNumber.HasValue)
@@ -170,8 +167,7 @@ public class CalculationsService
 
 	public static bool WithoutParenthesis(string expression, out string executedExpressions)
 	{
-		//chem metoda 
-
+		
 		if (!expression.Any(x => x is '(' or ')'))
 		{
 			executedExpressions = expression;
@@ -240,7 +236,7 @@ public class CalculationsService
 			if ((prevOperator == '/' || prevOperator == '*'))
 			{
 				var ex = operators.Count(x => x == '-') % 2 == 0 ? negativeNumber = false : negativeNumber = true;
-				//   negativeNumber = true;
+
 				operators.Pop();
 				op = prevOperator;
 			}
@@ -347,33 +343,8 @@ public class CalculationsService
 		return !Regex.IsMatch(expression, @"[^0-9*/+\-()\.]");
 	}
 
-	public static string Priotizare(string expression)
-	{
-		var result = " ";
-		char plusOperand = '*';
-		char divOperand = '/';
+	
 
-		for (int i = 0; i < expression.Length; i++)
-		{
-			if (expression[i] == plusOperand || expression[i] == divOperand)
-			{
-
-				char? previousChar = (i > 0) ? expression[i - 1] : (char?)null;
-				char? nextChar = (i < expression.Length - 1) ? expression[i + 1] : (char?)null;
-
-
-
-			}
-
-
-		}
-
-		return "";
-	}
-
-
-
-    
 }
 
 
