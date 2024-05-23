@@ -1,9 +1,11 @@
 ﻿using CalculatorService.Exceptions;
 using System.Data;
+using System.Security;
 using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
 
+//original
 
 namespace CalculatorService;
 
@@ -35,6 +37,9 @@ public class CalculationsService
 		if (IsSingleNumber(expression, out int num))
 			return num;
 
+
+		//deodata fac verificare daca contine valid sau invalid 
+		 
 		Stack<char> operators = new Stack<char>();
 		StringBuilder currentNumber = new StringBuilder();
 
@@ -42,48 +47,116 @@ public class CalculationsService
 		double? firstNumber = null;
 		double secondNumber = 0;
 		bool foundFirstNumber = false;
+		char[] operand = { '*', '/' };
 
-		DataTable dt = new DataTable();
-		var result = dt.Compute(expression, "");
-
-		foreach (var c in expression)
+		for (int c = 0;c< expression.Length;c++)
 		{
-			if (char.IsDigit(c) || c == '.')
+			
+			while ( expression.Contains('*') || expression.Contains('/'))
 			{
-				currentNumber.Append(c);
+				//firstNumber
+				int indexOper = expression.IndexOfAny(operand); //index curent al op * sau /
+				operators.Push(expression[indexOper]);
 
-				if (firstNumber.HasValue)
-					secondNumber = double.Parse(currentNumber.ToString());
-			}
-			else
-			{
-				//fac aici logica daca gasesc* sau / atunci 
-				if (currentNumber.Length > 0)
+				int indexOperLeft = indexOper - 1;
+
+				while (indexOperLeft >= 0 && (expression[indexOperLeft] != '-' &&  expression[indexOperLeft] != '+'))
 				{
-					if (!firstNumber.HasValue)
+					
+					currentNumber.Append(expression[indexOperLeft]);
+					indexOperLeft = indexOperLeft - 1 ;
+				}
+
+				firstNumber = double.Parse(currentNumber.ToString());
+				currentNumber = new StringBuilder();
+
+
+				//second number
+				
+				int count = 0;
+				int indexOpeRight = 0;
+
+				for (  indexOpeRight = indexOper + 1; indexOpeRight < expression.Length; indexOpeRight++)
+				{
+					if (expression[indexOpeRight] == '-')
 					{
-						firstNumber = double.Parse(currentNumber.ToString());
-						foundFirstNumber = true;
+						operators.Push(expression[indexOpeRight]);
+						count++;
+					
 					}
+
 					else
 					{
-						firstNumber = Operate(operators, firstNumber.Value, secondNumber);
+
+						while ( indexOpeRight < expression.Length && ( expression[indexOpeRight] != '-' && expression[indexOpeRight] != '+' && expression[indexOpeRight] != '*' && expression[indexOpeRight] != '/' ))
+						{
+							currentNumber.Append(expression[indexOpeRight]);
+							indexOpeRight = indexOpeRight + 1;
+
+						}
+
+						break;
+					}
+					
+				}
+
+			
+				secondNumber = double.Parse(currentNumber.ToString());
+				currentNumber = new StringBuilder();
+
+				string result = Operate(operators, firstNumber.Value, secondNumber).ToString();
+
+				expression = expression.Remove(indexOperLeft+1, indexOpeRight - indexOperLeft-1).Insert(indexOperLeft+1, result);
+
+				if (IsSingleNumber(expression, out int numar))
+					return numar;
+
+				firstNumber = null;
+				secondNumber = 0;
+
+
+			}
+			
+			
+			if (char.IsDigit(expression[c]) || expression[c] == '.')
+			{
+					currentNumber.Append(expression[c]);
+
+					if (firstNumber.HasValue)
+						secondNumber = double.Parse(currentNumber.ToString());
+			}
+
+			else
+			{
+					//fac aici logica daca gasesc* sau / atunci 
+
+					if (currentNumber.Length > 0)
+					{
+						if (!firstNumber.HasValue)
+					{
+							firstNumber = double.Parse(currentNumber.ToString());
+							foundFirstNumber = true;
+						}
+						else
+						{
+							firstNumber = Operate(operators, firstNumber.Value, secondNumber);
+						}
+
+						currentNumber = new StringBuilder();
 					}
 
-					currentNumber = new StringBuilder();
-				}
 
+					if (c == '-' && !foundFirstNumber)
+					{
+						currentNumber.Append(expression[c]);
+					}
 
-				if (c == '-' && !foundFirstNumber)
-				{
-					currentNumber.Append(c);
-				}
-
-				else
-				{
-					operators.Push(c);
-				}
+					else
+					{
+						operators.Push(expression[c]);
+					}
 			}
+			
 		}
 
 		if (operators.Count > 0)
@@ -299,80 +372,7 @@ public class CalculationsService
 	}
 
 
-	public static string AddParentheses(string expression)
-    {
-       
-        
-            StringBuilder result = new StringBuilder();
-            for (int i = 0; i < expression.Length; i++)
-            {
-                char c = expression[i];
-                int count=0;
-                if (c == '*' || c == '/')
-                {
-                    // Identificăm operandul anterior
-                    StringBuilder previousOperand = new StringBuilder();
-                    int j = i - 1;
-                    while (j >= 0 && (char.IsDigit(expression[j]) || expression[j] == '.'))
-                    {
-                        previousOperand.Insert(0, expression[j]);
-                        j--;
-                        count++;
-                       
-                    }
 
-                    // Construim expresia între paranteze și o adăugăm la rezultat
-                    if (result.Length > 0)
-                    {
-                        result.Remove(result.Length-1 ,1 ); // Șterge ultimul caracter
-                    }
-                    result.Append("(");
-                    result.Append(previousOperand);
-                   int m = 0;
-                   for(m = i; m<expression.Length;m++)
-				   {
-					  if (m + 1 < expression.Length && !char.IsDigit(expression[m]))
-					  {
-                        result.Append(expression[m]);
-					  }
-
-                    if (char.IsDigit(expression[m]))
-                     {
-						
-                        break;
-					}
-
-				   }
-                   // result.Append(c);
-                  
-
-                    // Identificăm operandul următor
-                    StringBuilder nextOperand = new StringBuilder();
-                    j = m ;
-                    while (j < expression.Length && (char.IsDigit(expression[j]) || expression[j] == '.'))
-                    {
-                        nextOperand.Append(expression[j]);
-                        j++;
-                    }
-
-                    // Adăugăm operandul următor, fără a-l dubla
-                    result.Append(nextOperand);
-                    result.Append(")");
-
-                    i = m;
-                    // Saltăm peste următorul operand
-                   // i += nextOperand.Length;
-                }
-                else
-                {
-                    // Dacă nu este un operator *, adăugăm caracterul la rezultat
-                    result.Append(c);
-                }
-            }
-
-            // Returnăm rezultatul final
-            return result.ToString();
-     }
     
 }
 
