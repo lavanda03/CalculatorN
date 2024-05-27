@@ -1,7 +1,7 @@
-﻿@model WebApplication1.Controllers.Calculator
-@{
-	ViewData["Title"] = "Calculator";
+﻿@{
+	ViewData["Title"] = "Index";
 }
+
 
 <h2>Calculator</h2>
 
@@ -42,16 +42,10 @@
 </head>
 
 <body>
-
+	 <h1> @ViewBag.Expression </h1>
 	<form asp-action="Execute" method="post" id="calculator-form" id="errorMessage">
 
-		@if (ViewBag.ErrorMessage != null)
-		{
-			<div class="alert alert-danger" role="alert">
-				@ViewBag.ErrorMessage
-			</div>
-
-		}
+		
 		<!-- Create table -->
 		<table id="calcu">
 			<tr>

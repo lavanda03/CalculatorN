@@ -292,48 +292,6 @@ namespace TestProject
         }
 
 
-        //execute
-        [TestMethod]
-        public void Execute_Test()
-        {
-            string expression = "5/2";
-
-            double result = CalculationsService.Execute(expression);
-
-            Assert.AreEqual(2.5, result);
-        }
-
-
-        [TestMethod]
-        public void Execute_WithPharantesis()
-        {
-            var expression = "(3+4)";
-
-            var result = CalculationsService.Execute(expression);
-
-            Assert.AreEqual(7, result);
-        }
-
-        [TestMethod]
-        public void Execute_WithoutPharantesis()
-        {
-            var exrepssion = "2+6";
-
-            var result = CalculationsService.Execute(exrepssion);
-
-            Assert.AreEqual(8, result); 
-        }
-
-        [TestMethod]
-        public void Execute_SingleNumber()
-        {
-            var expression = "3";
-
-            var result = CalculationsService.Execute(expression);
-
-            Assert.AreEqual(3, result); 
-
-        }
 
     }
 

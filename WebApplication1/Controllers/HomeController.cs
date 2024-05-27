@@ -8,7 +8,6 @@ namespace WebApplication1.Controllers
     public class HomeController : Controller
     {
 
-
 		private readonly CalculationsService _calculatorService;
 
 		public HomeController()
@@ -17,6 +16,8 @@ namespace WebApplication1.Controllers
 		}
 		public IActionResult Index(string expression)
 		{
+			
+			ViewBag.Expression = expression;	
 			return View();
 
 		}
@@ -37,12 +38,7 @@ namespace WebApplication1.Controllers
 
 			}
 
-
 		}
-
-
-
-
 
 	}
 }

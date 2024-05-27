@@ -11,7 +11,7 @@ namespace CalculatorService;
 
 public class CalculationsService
 {
-	public double Execute(string expression)
+	public  double Execute(string expression)
 	{
 
 		expression = expression.Trim().Replace(" ", "");
@@ -34,7 +34,7 @@ public class CalculationsService
 
 	public static double Calculate(string expression)
 	{
-		if (IsSingleNumber(expression, out int num))
+		if (IsSingleNumber(expression, out double num))
 			return num;
 
 
@@ -68,6 +68,7 @@ public class CalculationsService
 				}
 
 				firstNumber = double.Parse(currentNumber.ToString());
+				firstNumber = double.Parse(new string(firstNumber.ToString().Reverse().ToArray()));
 				currentNumber = new StringBuilder();
 
 
@@ -106,7 +107,7 @@ public class CalculationsService
 
 				expression = expression.Remove(indexOperLeft+1, indexOpeRight - indexOperLeft-1).Insert(indexOperLeft+1, result);
 
-				if (IsSingleNumber(expression, out int number))
+				if (IsSingleNumber(expression, out double number))
 					return number;
 
 				firstNumber = null;
@@ -143,7 +144,7 @@ public class CalculationsService
 					}
 
 
-					if (c == '-' && !foundFirstNumber)
+					if (expression[c] == '-' && !foundFirstNumber)
 					{
 						currentNumber.Append(expression[c]);
 					}
@@ -299,7 +300,7 @@ public class CalculationsService
 		return result;
 	}
 
-	public static bool IsSingleNumber(string expression, out int num)
+	public static bool IsSingleNumber(string expression, out double num)
 	{
 		int startIndex = 0;
 		var operators = new List<char>();
@@ -310,7 +311,7 @@ public class CalculationsService
 			startIndex++;
 		}
 
-		if (int.TryParse(expression.Substring(startIndex), out num))
+		if (double.TryParse(expression.Substring(startIndex), out num))
 		{
 			num = operators.Count(x => x == '-') % 2 == 0 ? num : num * -1;
 
