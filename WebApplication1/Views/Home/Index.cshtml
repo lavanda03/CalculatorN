@@ -42,47 +42,49 @@
 </head>
 
 <body>
-	 <h1> @ViewBag.Expression </h1>
-	<form asp-action="Execute" method="post" id="calculator-form" id="errorMessage">
 
+
+	<form asp-action="AddToExpression" method="post" id="calculator-form">
+		<input type="hidden" name="value" id="btn-value" value="" />
 		
 		<!-- Create table -->
 		<table id="calcu">
 			<tr>
 				<td colspan="4">
-					<input type="text" id="expression" name="expression" value=@ViewBag.Result placeholder="Enter expression">
+					<input type="text" id="expression" name="expression" value="@ViewBag.Expression" placeholder="Enter expression">
 				</td>
 
 			</tr>
 			<tr>
-				<td><input type="button" value="(" onclick="addToExpression('(')"></td>
-				<td><input type="button" value=")" onclick="addToExpression(')')"></td>
-				<td colspan="2"><input type="button" value="c" onclick="clr()"></td>
+				<td><input type="submit" name="buttonValue" value="("></td>
+				<td><input type="submit" name="buttonValue" value=")"></td>
+				<td><input type="submit" name="buttonValue" value="C"></td>
+				<td><input type="submit" name="buttonValue" value="AC" </td>
 			</tr>
 
 			<tr>
-				<td><input type="button" value="1" onclick="addToExpression('1')"></td>
-				<td><input type="button" value="2" onclick="addToExpression('2')"></td>
-				<td><input type="button" value="3" onclick="addToExpression('3')"></td>
-				<td><input type="button" id="divbutn" class='btn btn-info btn-xs approvedbtn' data-dismiss='modal' tabindex="6" value="/" onclick="addToExpression('/')"></td>
+				<td><input type="submit" name="buttonValue" value="1"></td>
+				<td><input type="submit" name="buttonValue" value="2"></td>
+				<td><input type="submit" name="buttonValue" value="3"></td>
+				<td><input type="submit" name="buttonValue" value="/" ></td>
 			</tr>
 			<tr>
-				<td><input type="button" value="4" onclick="addToExpression('4')"></td>
-				<td><input type="button" value="5" onclick="addToExpression('5')"></td>
-				<td><input type="button" value="6" onclick="addToExpression('6')"></td>
-				<td><input type="button" id="multbtn" class='btn btn-info btn-xs approvedbtn' data-dismiss='modal' tabindex="6" value="*" onclick="addToExpression('*')"></td>
+				<td><input type="submit" name="buttonValue" value="4"></td>
+				<td><input type="submit" name="buttonValue" value="5"></td>
+				<td><input type="submit" name="buttonValue" value="6"></td>
+				<td><input type="submit" name="buttonValue" value="*" ></td>
 			</tr>
 			<tr>
-				<td><input type="button" value="7" onclick="addToExpression('7')"></td>
-				<td><input type="button" value="8" onclick="addToExpression('8')"></td>
-				<td><input type="button" value="9" onclick="addToExpression('9')"></td>
-				<td><input type="button" id="minbtn" class='btn btn-info btn-xs approvedbtn' data-dismiss='modal' tabindex="6" value="-" onclick="addToExpression('-')"></td>
+				<td><input type="submit" name="buttonValue" value="7"></td>
+				<td><input type="submit" name="buttonValue" value="8"></td>
+				<td><input type="submit" name="buttonValue" value="9"></td>
+				<td><input type="submit" name="buttonValue" value="-" </td>
 			</tr>
 			<tr>
-				<td><input type="button" value="0" onclick="addToExpression('0')"></td>
-				<td><input type="button" value="." onclick="addToExpression('.')"></td>
-				<td><input type="submit" value="=" /></td>
-				<td><input type="button" id="plsbtn" class='btn btn-info btn-xs approvedbtn' data-dismiss='modal' tabindex="6" value="+" onclick="addToExpression('+')"></td>
+				<td><input type="submit" name="buttonValue" value="0"></td>
+				<td><input type="submit" name="buttonValue" value="." ></td>
+				<td><input type="submit" name="buttonValue" value="=" /></td>
+				<td><input type="submit" name="buttonValue" value="+" ></td>
 			</tr>
 
 		</table>
@@ -91,99 +93,6 @@
 
 
 	</form>
-
-
-
-	<script>
-		var lastOperator = null;
-		var divMinus = false;
-
-
-		function addToExpression(value) {
-
-			var expressionInput = document.getElementById("expression");
-			var currentValue = expressionInput.value;
-			var lastChar = expressionInput.value.slice(-1);
-
-
-
-			if (/[+\-*\/]/.test(value) && divMinus == false) {
-
-				if (/[+\-*\/]/.test(lastOperator)) {
-
-					if (/[*\/]/.test(lastOperator) && /[-]/.test(value)) {
-						expressionInput.value += value;
-						divMinus = true;
-					}
-					else if (value == '-' && /\($/.test(lastChar) ) 
-					{
-							expressionInput.value += value;
-						
-					}
-					else {
-						expressionInput.value = currentValue.slice(0, -1) + value;
-					}
-				}
-
-				else {
-					expressionInput.value += value;
-				}
-
-				lastOperator = value;
-			}
-			else if (value == '(') {
-				if (!lastChar || /[*+\-\/(]/.test(lastChar)) {
-					expressionInput.value += value;
-				}
-			}
-			
-
-			else if (!/[+\-*\/]/.test(value)) {
-				expressionInput.value += value;
-
-				lastOperator = null;
-				divMinus = false;
-			}
-		}
-
-
-
-
-		function myFunction(event) {
-			if (event.Key == '0' || event.Key == '1'
-				|| event.Key == '2' || event.Key == '3'
-				|| event.Key == '4' || event.Key == '5'
-				|| event.Key == '6' || event.Key == '7'
-				|| event.key == '8' || event.key == '9'
-				|| event.key == '+' || event.key == '-'
-				|| event.key == '*' || event.key == '/')
-
-				document.getElementById("result").value += event.key;
-
-		}
-
-		function clr() {
-
-			var expressionInput = document.getElementById("expression");
-			expressionInput.value = expressionInput.value.slice(0, -1);
-
-		}
-
-
-		$('#plsbtn ,#minbtn ,#divbutn , #multbtn ').on('click', '.approvedbtn', function () {
-			$('#clickedButton').text($(this).text());
-		})
-
-
-		document.getElementById('errorMessage').style.display = 'none';
-
-		var errorMessage = '@ViewBag.ErrorMessage'
-		if (errorMessage.trim() !== '') {
-			document.getElementById('errorMessage').style.display = 'block';
-		}
-
-	</script>
-
 
 
 </body>
