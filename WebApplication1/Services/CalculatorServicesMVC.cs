@@ -7,23 +7,49 @@ namespace CalculatorWebApp.Services
 	public class CalculatorServicesMVC
 	{
 
-		bool divMinus = false; 
+		static bool divMinus = false;
+		static bool otherNum = false;
+		static bool addDot = false;
+		static int count = 0;
 
 		public string AddToExpression(string expressionInput, string value)
 		{
+
+
 			if (string.IsNullOrEmpty(expressionInput))
 			{
 				expressionInput = value;
 			}
+			else if (count == 1 && otherNum == false && value == ".")
+			{
+				return expressionInput;
+			}
+			else if (count == 0 && otherNum == true && value == ".")
+			{
+				expressionInput += value;
+				count = 0;
+				otherNum = false;
+				count++;
+			}
 			else
 			{
 				string lastChar = expressionInput.Substring(expressionInput.Length - 1);
-				string lastOperator = Regex.IsMatch(lastChar, @"[+\-*\/]") ? lastChar : "";
-				
+				string lastOperator = Regex.IsMatch(lastChar, @"[()+\-*\/\.]") ? lastChar : "";
 
-				if (Regex.IsMatch(value, @"[+\-*\/]") && divMinus == false)
+				/*if (Regex.IsMatch(lastOperator, @"[+\-*\/]") && !Regex.IsMatch(value, @"[+\-*\/\.]"))
 				{
-					if (Regex.IsMatch(lastOperator, @"[+\-*\/]"))
+					otherNum = true;
+				}*/
+
+				if (Regex.IsMatch(value, @"[()+\-*\/\.]") && divMinus == false)
+				{
+					if (otherNum == true && value == ".")
+					{
+						expressionInput += value;
+						return expressionInput;
+
+					}
+					if (Regex.IsMatch(lastOperator, @"[()+\-*\/\.]"))
 					{
 						if ((Regex.IsMatch(lastOperator, @"[*\/]") && Regex.IsMatch(value, @"[-]")))
 						{
@@ -39,9 +65,21 @@ namespace CalculatorWebApp.Services
 							expressionInput = expressionInput.Substring(0, expressionInput.Length - 1) + value;
 						}
 					}
-					else
+					else 
 					{
+						if (value == ".")
+						{
+							addDot = true;
+							count++;
+						
+						}
+						if (value == "-" || value == "*" ||  value == "/" || value == "+")
+						{
+							otherNum = true;
+							count = 0;
+						}
 						expressionInput += value;
+						
 					}
 				}
 				else if (value == "(")
@@ -51,9 +89,10 @@ namespace CalculatorWebApp.Services
 						expressionInput += value;
 					}
 				}
-				else if (!Regex.IsMatch(value, @"[+\-*\/]"))
+				else if (!Regex.IsMatch(value, @"[+\-*\/\.]"))
 				{
 					expressionInput += value;
+					divMinus = false;
 				}
 			}
 
@@ -66,16 +105,16 @@ namespace CalculatorWebApp.Services
 		public string RemoveLastCharacter(string expression)
 		{
 
-			return expression.Remove(expression.Length-1);
+			return expression.Remove(expression.Length - 1);
 
 		}
-		
+
 		public string DeleteString(string expression)
 		{
 			return expression = " ";
 		}
 
-		
+
 
 
 	}
