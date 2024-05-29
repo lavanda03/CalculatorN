@@ -36,9 +36,8 @@ namespace TestProject
         public void IsSingleNumber_PositiveNumberTest()
         {
             string expression = "33";
-            int expected;
 
-            bool actual = CalculationsService.IsSingleNumber(expression, out expected);
+            bool actual = CalculationsService.IsSingleNumber(expression, out double expected);
 
             Assert.IsTrue(actual);
             Assert.AreEqual(33, expected);
@@ -49,9 +48,8 @@ namespace TestProject
         public void IsSingleNumber_NegativeNumberTest()
         {
             string expression = "-9";
-            int expected;
 
-            var actual = CalculationsService.IsSingleNumber(expression, out expected);
+            var actual = CalculationsService.IsSingleNumber(expression, out double expected);
 
             Assert.IsTrue(actual);
             Assert.AreEqual(-9, expected);
@@ -62,9 +60,8 @@ namespace TestProject
         public void IsNotSingleNumber_Test()
         {
             string expression = "2 + 4 ";
-            int expected;
 
-            var actual = CalculationsService.IsSingleNumber(expression, out expected);
+            var actual = CalculationsService.IsSingleNumber(expression, out double expected);
 
             Assert.IsFalse(actual);
             Assert.AreNotEqual(3, expected);

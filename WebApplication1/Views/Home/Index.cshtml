@@ -10,7 +10,6 @@
 
 <head>
 	<title>HTML Calculator</title>
-
 	<!-- For styling -->
 	<style>
 		table {
@@ -44,7 +43,7 @@
 <body>
 
 
-	<form asp-action="AddToExpression" method="post" id="calculator-form">
+	<form asp-controller="Home" asp-action="AddToExpression" method="post" id="calculator-form">
 		<input type="hidden" name="value" id="btn-value" value="" />
 		
 		<!-- Create table -->
@@ -59,39 +58,38 @@
 				<td><input type="submit" name="buttonValue" value="("></td>
 				<td><input type="submit" name="buttonValue" value=")"></td>
 				<td><input type="submit" name="buttonValue" value="C"></td>
-				<td><input type="submit" name="buttonValue" value="AC" </td>
+				<td><input type="submit" name="buttonValue" value="AC"></td>
 			</tr>
 
 			<tr>
 				<td><input type="submit" name="buttonValue" value="1"></td>
 				<td><input type="submit" name="buttonValue" value="2"></td>
 				<td><input type="submit" name="buttonValue" value="3"></td>
-				<td><input type="submit" name="buttonValue" value="/" ></td>
+				<td><input type="submit" name="buttonValue" value="/"></td>
 			</tr>
 			<tr>
 				<td><input type="submit" name="buttonValue" value="4"></td>
 				<td><input type="submit" name="buttonValue" value="5"></td>
 				<td><input type="submit" name="buttonValue" value="6"></td>
-				<td><input type="submit" name="buttonValue" value="*" ></td>
+				<td><input type="submit" name="buttonValue" value="*"></td>
 			</tr>
 			<tr>
 				<td><input type="submit" name="buttonValue" value="7"></td>
 				<td><input type="submit" name="buttonValue" value="8"></td>
 				<td><input type="submit" name="buttonValue" value="9"></td>
-				<td><input type="submit" name="buttonValue" value="-" </td>
+				<td><input type="submit" name="buttonValue" value="-"></td>
 			</tr>
 			<tr>
 				<td><input type="submit" name="buttonValue" value="0"></td>
-				<td><input type="submit" name="buttonValue" value="." ></td>
-				<td><input type="submit" name="buttonValue" value="=" /></td>
-				<td><input type="submit" name="buttonValue" value="+" ></td>
+				<td><input type="submit" name="buttonValue" value="."></td>
+				<td><input type="submit" name="buttonValue" value="="></td>
+				<td><input type="submit" name="buttonValue" value="+"></td>
 			</tr>
 
 		</table>
 
-		<label id="clicledButton"></label>
-
-
+		<label id="clickedButton"></label>
+		
 	</form>
 
 

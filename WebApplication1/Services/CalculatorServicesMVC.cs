@@ -1,121 +1,96 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Reflection.Metadata;
-using System.Text.RegularExpressions;
-
-namespace CalculatorWebApp.Services
+﻿namespace CalculatorWebApp.Services
 {
-	public class CalculatorServicesMVC
-	{
+    public class CalculatorServicesMVC
+    {
+        private static readonly string[] operators = { "+", "-", "/", "*" };
 
-		static bool divMinus = false;
-		static bool otherNum = false;
-		static bool addDot = false;
-		static int count = 0;
+        public string AddToExpression(string expressionInput, string value)
+        {
+            if (string.IsNullOrEmpty(expressionInput))
+            {
+                if (IsNumber(value) || value == "-" || value == "(")
+                    expressionInput = value;
+                else
+                {
+                    return expressionInput;
+                }
+            }
+            else
+            {
+                string lastChar = expressionInput.Substring(expressionInput.Length - 1);
+                string lastOperator = operators.Contains(lastChar) ? lastChar : "";
 
-		public string AddToExpression(string expressionInput, string value)
-		{
+                if (expressionInput.Length > 1 &&
+                    (expressionInput.Substring(expressionInput.Length - 2) == "/-" ||
+                     expressionInput.Substring(expressionInput.Length - 2) == "*-") && !IsNumber(value))
+                    return expressionInput;
 
+                if (lastChar == "." && !IsNumber(value))
+                    return expressionInput;
 
-			if (string.IsNullOrEmpty(expressionInput))
-			{
-				expressionInput = value;
-			}
-			else if (count == 1 && otherNum == false && value == ".")
-			{
-				return expressionInput;
-			}
-			else if (count == 0 && otherNum == true && value == ".")
-			{
-				expressionInput += value;
-				count = 0;
-				otherNum = false;
-				count++;
-			}
-			else
-			{
-				string lastChar = expressionInput.Substring(expressionInput.Length - 1);
-				string lastOperator = Regex.IsMatch(lastChar, @"[()+\-*\/\.]") ? lastChar : "";
+                if (operators.Contains(value))
+                {
+                    if (lastOperator != string.Empty)
+                    {
+                        if ((lastOperator == "*" || lastOperator == "/") && value == "-")
+                        {
+                            expressionInput += value;
+                        }
+                        else if (value == "-" && lastChar == "(")
+                        {
+                            expressionInput += value;
+                        }
+                        else
+                        {
+                            expressionInput = expressionInput.Substring(0, expressionInput.Length - 1) + value;
+                        }
+                    }
+                    else
+                    {
+                        expressionInput += value;
+                    }
+                }
+                else if (value == "(")
+                {
+                    if (string.IsNullOrEmpty(lastChar) || operators.Contains(lastChar) || lastChar == "(")
+                    {
+                        expressionInput += value;
+                    }
+                }
+                else if (value == ")" && IsNumber(lastChar))
+                {
+                    expressionInput += value;
+                }
+                else if (IsNumber(value))
+                {
+                    expressionInput += value;
+                }
+                else if (value == ".")
+                {
+                    if (!IsNumber(lastChar))
+                        return expressionInput;
 
-				/*if (Regex.IsMatch(lastOperator, @"[+\-*\/]") && !Regex.IsMatch(value, @"[+\-*\/\.]"))
-				{
-					otherNum = true;
-				}*/
+                    var lastInput = new string(expressionInput.Reverse()
+                        .TakeWhile(x => !operators.Contains(x.ToString())).ToArray());
 
-				if (Regex.IsMatch(value, @"[()+\-*\/\.]") && divMinus == false)
-				{
-					if (otherNum == true && value == ".")
-					{
-						expressionInput += value;
-						return expressionInput;
+                    if (lastInput.Count(x => x == '.') > 0)
+                        return expressionInput;
 
-					}
-					if (Regex.IsMatch(lastOperator, @"[()+\-*\/\.]"))
-					{
-						if ((Regex.IsMatch(lastOperator, @"[*\/]") && Regex.IsMatch(value, @"[-]")))
-						{
-							expressionInput += value;
-							divMinus = true;
-						}
-						else if (value == "-" && Regex.IsMatch(lastChar, @"\($"))
-						{
-							expressionInput += value;
-						}
-						else
-						{
-							expressionInput = expressionInput.Substring(0, expressionInput.Length - 1) + value;
-						}
-					}
-					else 
-					{
-						if (value == ".")
-						{
-							addDot = true;
-							count++;
-						
-						}
-						if (value == "-" || value == "*" ||  value == "/" || value == "+")
-						{
-							otherNum = true;
-							count = 0;
-						}
-						expressionInput += value;
-						
-					}
-				}
-				else if (value == "(")
-				{
-					if (string.IsNullOrEmpty(lastChar) || Regex.IsMatch(lastChar, @"[*+\-\/(]"))
-					{
-						expressionInput += value;
-					}
-				}
-				else if (!Regex.IsMatch(value, @"[+\-*\/\.]"))
-				{
-					expressionInput += value;
-					divMinus = false;
-				}
-			}
+                    expressionInput += value;
+                }
+            }
 
-			return expressionInput;
-		}
+            return expressionInput;
+        }
 
+        private bool IsNumber(string value)
+        {
+            return double.TryParse(value, out double _);
+        }
 
-
-
-		public string RemoveLastCharacter(string expression)
-		{
-
-			return expression.Remove(expression.Length - 1);
-
-		}
-
-		public string DeleteString(string expression)
-		{
-			return expression = " ";
-		}
-
-
-
-
-	}
+        public string RemoveLastCharacter(string expression)
+        {
+            return string.IsNullOrEmpty(expression) ? expression : expression.Remove(expression.Length - 1);
+        }
+    }
 }
