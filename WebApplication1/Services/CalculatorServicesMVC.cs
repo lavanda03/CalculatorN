@@ -57,7 +57,7 @@
                         expressionInput += value;
                     }
                 }
-                else if (value == ")" && IsNumber(lastChar))
+                else if (value == ")" && IsNumber(lastChar) || lastChar == ")")
                 {
                     expressionInput += value;
                 }
