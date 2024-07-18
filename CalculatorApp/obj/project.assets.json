@@ -141,11 +141,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\crme155\\Desktop\\CalculatorN\\CalculatorN\\CalculatorApp\\CalculatorApp.csproj",
+      "projectUniqueName": "C:\\Users\\crme155\\Desktop\\MyProjects\\CalculatorN\\CalculatorN\\CalculatorApp\\CalculatorApp.csproj",
       "projectName": "CalculatorConsoleApp",
-      "projectPath": "C:\\Users\\crme155\\Desktop\\CalculatorN\\CalculatorN\\CalculatorApp\\CalculatorApp.csproj",
+      "projectPath": "C:\\Users\\crme155\\Desktop\\MyProjects\\CalculatorN\\CalculatorN\\CalculatorApp\\CalculatorApp.csproj",
       "packagesPath": "C:\\Users\\crme155\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\crme155\\Desktop\\CalculatorN\\CalculatorN\\CalculatorApp\\obj\\",
+      "outputPath": "C:\\Users\\crme155\\Desktop\\MyProjects\\CalculatorN\\CalculatorN\\CalculatorApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -167,8 +167,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\Users\\crme155\\Desktop\\CalculatorN\\CalculatorN\\CalculatorService\\CalculatorService.csproj": {
-              "projectPath": "C:\\Users\\crme155\\Desktop\\CalculatorN\\CalculatorN\\CalculatorService\\CalculatorService.csproj"
+            "C:\\Users\\crme155\\Desktop\\MyProjects\\CalculatorN\\CalculatorN\\CalculatorService\\CalculatorService.csproj": {
+              "projectPath": "C:\\Users\\crme155\\Desktop\\MyProjects\\CalculatorN\\CalculatorN\\CalculatorService\\CalculatorService.csproj"
             }
           }
         }

@@ -122,11 +122,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\crme155\\Desktop\\CalculatorN\\CalculatorN\\CalculatorService\\CalculatorService.csproj",
+      "projectUniqueName": "C:\\Users\\crme155\\Desktop\\MyProjects\\CalculatorN\\CalculatorN\\CalculatorService\\CalculatorService.csproj",
       "projectName": "CalculatorService",
-      "projectPath": "C:\\Users\\crme155\\Desktop\\CalculatorN\\CalculatorN\\CalculatorService\\CalculatorService.csproj",
+      "projectPath": "C:\\Users\\crme155\\Desktop\\MyProjects\\CalculatorN\\CalculatorN\\CalculatorService\\CalculatorService.csproj",
       "packagesPath": "C:\\Users\\crme155\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\crme155\\Desktop\\CalculatorN\\CalculatorN\\CalculatorService\\obj\\",
+      "outputPath": "C:\\Users\\crme155\\Desktop\\MyProjects\\CalculatorN\\CalculatorN\\CalculatorService\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

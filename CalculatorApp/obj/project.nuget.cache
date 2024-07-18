@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "jQPvmQ3F6Et9VC/w1u5766+i4qq9SQc7RouwskWHE+Tl5WDgxdP65x1V6tvuG+Nb8qKDnYaZdVsQGdu9Nnct3w==",
+  "dgSpecHash": "XRoLkQRUmEYFm+TVyimen+U2DRsE8856Mexxh0qqeBJQcgSFz8NYEWRbvDyEYaNmuhz0rMUHsXyudLhj/me47g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\crme155\\Desktop\\CalculatorN\\CalculatorN\\CalculatorApp\\CalculatorApp.csproj",
+  "projectFilePath": "C:\\Users\\crme155\\Desktop\\MyProjects\\CalculatorN\\CalculatorN\\CalculatorApp\\CalculatorApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\crme155\\.nuget\\packages\\coverlet.collector\\6.0.2\\coverlet.collector.6.0.2.nupkg.sha512",
     "C:\\Users\\crme155\\.nuget\\packages\\math-expression-evaluator\\1.3.2\\math-expression-evaluator.1.3.2.nupkg.sha512"
